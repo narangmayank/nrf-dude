@@ -5,6 +5,7 @@ project(RunTimeCli)
 
 # header files
 zephyr_include_directories(src/Drivers)
+zephyr_include_directories(src/Utils)
 
 # source files
 target_sources(app PRIVATE src/main.c)
