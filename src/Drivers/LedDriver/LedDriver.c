@@ -3,6 +3,7 @@
 #include <nrf9160.h>
 #include <drivers/gpio.h>
 
+/* if board is equiped with led's then only do the operations */
 #if LEDS_NUMBER > 0
 static const struct device * ledAddress = NULL;
 static const uint8_t ledList[LEDS_NUMBER] = LEDS_LIST;
@@ -53,6 +54,9 @@ int LedDriver_Destroy() {
   uint32_t i;
   int errCode;
   
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+
   /* configuring led pins as ouptut and keeping all the led's at off state */
   for (i = 0; i < LEDS_NUMBER; ++i) {
     errCode = gpio_pin_configure(ledAddress, ledList[i], LEDS_ACTIVE_STATE ? GPIO_OUTPUT_LOW : GPIO_OUTPUT_HIGH); 
@@ -77,6 +81,9 @@ int LedDriver_Destroy() {
 int LedDriver_TurnOn(uint32_t ledIdx) {
   int errCode;
   
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+
   /* validate the led index out of bound scenario */
   ASSERT(ledIdx < LEDS_NUMBER);
 
@@ -98,6 +105,9 @@ int LedDriver_TurnOn(uint32_t ledIdx) {
 int LedDriver_TurnOff(uint32_t ledIdx) {
   int errCode;
   
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+
   /* validate the led index out of bound scenario */
   ASSERT(ledIdx < LEDS_NUMBER);
 
@@ -119,6 +129,9 @@ int LedDriver_TurnOff(uint32_t ledIdx) {
 int LedDriver_TurnOpposite(uint32_t ledIdx) {
   int errCode;
   
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+
   /* validate the led index out of bound scenario */
   ASSERT(ledIdx < LEDS_NUMBER);
   
@@ -138,6 +151,9 @@ int LedDriver_TurnOpposite(uint32_t ledIdx) {
  *
  */
 bool LedDriver_IsOn(uint32_t ledIdx) {
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+
   /* validate the led index out of bound scenario */
   ASSERT(ledIdx < LEDS_NUMBER);
   
@@ -162,6 +178,9 @@ bool LedDriver_IsOn(uint32_t ledIdx) {
  *
  */
 bool LedDriver_IsOff(uint32_t ledIdx) {
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+
   /* validate the led index out of bound scenario */
   ASSERT(ledIdx < LEDS_NUMBER);
   
@@ -181,6 +200,9 @@ int LedDriver_TurnAllOn() {
   uint32_t i;
   int errCode;
   
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+
   /* turn ON all the led's which are there in ledList array */
   for (i = 0; i < LEDS_NUMBER; ++i) {
       errCode = LedDriver_TurnOn(i);
@@ -202,6 +224,9 @@ int LedDriver_TurnAllOff() {
   uint32_t i;
   int errCode;
   
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+
   /* turn ON all the led's which are there in ledList array */
   for (i = 0; i < LEDS_NUMBER; ++i) {
       errCode = LedDriver_TurnOff(i);

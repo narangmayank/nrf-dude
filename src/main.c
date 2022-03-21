@@ -13,5 +13,5 @@
 #include <sys/printk.h>
 
 void main(void) {
-  printk("err_code : %d",driveLed());
+  printk("driveLed() err_code : %d\n",driveLed());
 }
