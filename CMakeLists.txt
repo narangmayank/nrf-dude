@@ -12,3 +12,9 @@ target_sources(app PRIVATE src/main.c)
 target_sources(app PRIVATE src/Utils/DriveDriver.c)
 target_sources(app PRIVATE src/Drivers/LedDriver/LedDriver.c)
 target_sources(app PRIVATE src/Drivers/UartDriver/UartDriver.c)
+
+# test files
+target_sources(app PRIVATE test/LedTest.c)
+
+# runner test file generation
+test_runner_generate(test/LedTest.c)
