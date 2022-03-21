@@ -9,11 +9,14 @@
 //#include "UartDriver/UartDriver.h"
 #include <zephyr.h>
 #include <device.h>
+#include <kernel.h>
 #include <devicetree.h>
 #include <sys/printk.h>
 
-#define RUN_UNIT_TEST 1
-#define RUN_FUNCTIONALITY_TEST 1
+#define RUN_UNIT_TEST 0
+#define RUN_FUNCTIONALITY_TEST 0
+
+extern k_tid_t tid_CliThread;
 
 void main(void) {
   
@@ -26,4 +29,11 @@ void main(void) {
     extern int unity_main(void);
     printk("unity_main() err_code : %d",unity_main());
   #endif
+
+  while(1) {
+     k_msleep(3000);
+
+    /* resume the cli thread */
+    k_thread_resume(tid_CliThread);
+  }
 }
