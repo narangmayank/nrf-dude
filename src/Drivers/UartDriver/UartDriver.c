@@ -2,11 +2,16 @@
 #include "UartDriver/UartDriver.h"
 #include <stdio.h>
 #include <string.h>
+#include <kernel.h>
 #include <sys/printk.h>
 #include <drivers/uart.h>
 
 /* creating an instance of uart data structure for tx & rx */
 uartData_t uartTxRx;
+uint8_t rxBufTemp[UART_RX_BUF_SIZE] = "";
+
+/* cli thread handle */
+extern k_tid_t tid_CliThread;
 
 
 /*
@@ -37,11 +42,15 @@ static void UartDriver_UartCallback(const struct device * uartDev, struct uart_e
 
     case UART_RX_RDY:
         //printk("Hi, I am UART_RX_RDY event\n");
+        uartTxRx.rxBufLen = uartEvt->data.rx.len;
+        memset(uartTxRx.rxBuf, 0, UART_RX_BUF_SIZE);
+        memcpy(uartTxRx.rxBuf, (uartEvt->data.rx.buf + uartEvt->data.rx.offset), uartTxRx.rxBufLen);
+        k_thread_resume(tid_CliThread);
         break;
 
     case UART_RX_BUF_REQUEST:
         //printk("Hi, I am UART_RX_BUF_REQUEST event\n");
-        uart_rx_buf_rsp(uartDev, uartTxRx.rxBuf, UART_RX_BUF_SIZE);
+        uart_rx_buf_rsp(uartDev, rxBufTemp, UART_RX_BUF_SIZE);
         break;
 
     case UART_RX_BUF_RELEASED:
@@ -144,7 +153,7 @@ int UartDriver_Create(const struct device ** uartAddress, uint32_t uartPort, uin
   VERIFY_SUCCESS(errCode);
 
   /* enable the uart reception into respective buffer */
-  errCode = uart_rx_enable(*uartAddress, uartTxRx.rxBuf, UART_RX_BUF_SIZE, UART_RX_TIMEOUT_MS);
+  errCode = uart_rx_enable(*uartAddress, rxBufTemp, UART_RX_BUF_SIZE, UART_RX_TIMEOUT_MS);
   VERIFY_SUCCESS(errCode);
   
   char message[50] = ""; 

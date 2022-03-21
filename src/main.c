@@ -6,7 +6,7 @@
 
 #include "DriveDriver.h"
 //#include "LedDriver/LedDriver.h"
-//#include "UartDriver/UartDriver.h"
+#include "UartDriver/UartDriver.h"
 #include <zephyr.h>
 #include <device.h>
 #include <kernel.h>
@@ -16,7 +16,7 @@
 #define RUN_UNIT_TEST 0
 #define RUN_FUNCTIONALITY_TEST 0
 
-extern k_tid_t tid_CliThread;
+const struct device * uartDev_0 = NULL;
 
 void main(void) {
   
@@ -29,11 +29,6 @@ void main(void) {
     extern int unity_main(void);
     printk("unity_main() err_code : %d",unity_main());
   #endif
-
-  while(1) {
-     k_msleep(3000);
-
-    /* resume the cli thread */
-    k_thread_resume(tid_CliThread);
-  }
+  
+  UartDriver_Create(&uartDev_0, UART_PORT_0, UART_BAUDRATE_115200);
 }

@@ -1,6 +1,10 @@
 #include "CliThread.h" 
+#include "UartDriver/UartDriver.h"
 #include <kernel.h>
 #include <sys/printk.h>
+
+/* uart driver data variable */
+extern uartData_t uartTxRx;
 
 /* configuring the cli thread */
 K_THREAD_DEFINE(tid_CliThread, CLI_THREAD_STACK_SIZE, CliThread, ARG_1, ARG_2, ARG_3, CLI_THREAD_PRIORITY, 0, 0);
@@ -18,6 +22,11 @@ void CliThread(void * arg1, void * arg2, void * arg3) {
     taskCounter++;
     printk("%d %d %d : %d !!\n", (int *) arg1, (int *)arg2, (int *)arg3, taskCounter);
     printk("Cli Thread Triggered : %d !!\n", taskCounter);
+
+    for(uint32_t i=0; i<uartTxRx.rxBufLen; i++) {
+      printk("%c", uartTxRx.rxBuf[i]);
+    }
+    printk("\n");
 
   }
 }
