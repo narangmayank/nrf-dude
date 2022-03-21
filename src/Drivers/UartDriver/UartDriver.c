@@ -5,7 +5,9 @@
 #include <sys/printk.h>
 #include <drivers/uart.h>
 
+/* creating an instance of uart data structure for tx & rx */
 uartData_t uartTxRx;
+
 
 /*
  * @brief uart event handler. 
@@ -26,38 +28,64 @@ static void UartDriver_UartCallback(const struct device * uartDev, struct uart_e
     switch (uartEvt->type)
     {
     case UART_TX_DONE:
-        printk("Hi, I am UART_TX_DONE event\n");
+        //printk("Hi, I am UART_TX_DONE event\n");
         break;
 
     case UART_TX_ABORTED:
-        printk("Hi, I am UART_TX_ABORTED event\n");
+        //printk("Hi, I am UART_TX_ABORTED event\n");
         break;
 
     case UART_RX_RDY:
-        printk("Hi, I am UART_RX_RDY event\n");
+        //printk("Hi, I am UART_RX_RDY event\n");
         break;
 
     case UART_RX_BUF_REQUEST:
-        printk("Hi, I am UART_RX_BUF_REQUEST event\n");
+        //printk("Hi, I am UART_RX_BUF_REQUEST event\n");
         uart_rx_buf_rsp(uartDev, uartTxRx.rxBuf, UART_RX_BUF_SIZE);
         break;
 
     case UART_RX_BUF_RELEASED:
-        printk("Hi, I am UART_RX_BUF_RELEASED event\n");
+        //printk("Hi, I am UART_RX_BUF_RELEASED event\n");
         break;
 
     case UART_RX_DISABLED:
-        printk("Hi, I am UART_RX_DISABLED event\n");
+        //printk("Hi, I am UART_RX_DISABLED event\n");
         break;
 
     case UART_RX_STOPPED:
-        printk("Hi, I am UART_RX_STOPPED event\n");
+        //printk("Hi, I am UART_RX_STOPPED event\n");
         break;
 
     default:
-        printk("Hi, I am defualt case\n");
+        //printk("Hi, I am defualt case\n");
         break;
     }
+}
+
+/*
+ * @brief Function for generate the start-up message. 
+ *
+ *
+ * @param uartAddress pointer to the uart device structure.
+ * @param uartBaurate uart baudrate.
+ *
+ * @retval APP_SUCCESS If the respective uart baudrate was setted successfully.
+ *                     Otherwise, an error code is returned.
+ */
+static int uartBaudrateSet(const struct device * uartAddress, uint32_t uartBaudrate) {
+  int errCode;
+  struct uart_config uartConfig;
+
+  uartConfig.baudrate  = (uint32_t) uartBaudrate;
+  uartConfig.parity    = (uint8_t)  UART_CFG_PARITY_NONE;
+  uartConfig.stop_bits = (uint8_t)  UART_CFG_STOP_BITS_1;
+  uartConfig.data_bits = (uint8_t)  UART_CFG_DATA_BITS_8;
+  uartConfig.flow_ctrl = (uint8_t)  UART_CFG_FLOW_CTRL_NONE;
+  
+  errCode = uart_configure(uartAddress, &uartConfig);
+  VERIFY_SUCCESS(errCode);
+
+  return APP_SUCCESS;
 }
 
 /*
@@ -111,6 +139,10 @@ int UartDriver_Create(const struct device ** uartAddress, uint32_t uartPort, uin
   errCode = uart_callback_set(*uartAddress, UartDriver_UartCallback, NULL);
   VERIFY_SUCCESS(errCode);
 
+  /* configure the uart as per the requested baudrate */
+  errCode = uartBaudrateSet(*uartAddress, uartBaudrate);
+  VERIFY_SUCCESS(errCode);
+
   /* enable the uart reception into respective buffer */
   errCode = uart_rx_enable(*uartAddress, uartTxRx.rxBuf, UART_RX_BUF_SIZE, UART_RX_TIMEOUT_MS);
   VERIFY_SUCCESS(errCode);
@@ -143,17 +175,14 @@ int UartDriver_Create(const struct device ** uartAddress, uint32_t uartPort, uin
  *
  */
 int UartDriver_Destroy(const struct device ** uartAddress) {
-  int errCode;
-  
   /* validate the uart dev pointer */
   VERIFY_PARAM_NOT_NULL(*uartAddress);
 
   /* abort the current uart transmition, if any */
   uart_tx_abort(*uartAddress);
   
-  /* disable the uart reception */
-  errCode = uart_rx_disable(*uartAddress);
-  VERIFY_SUCCESS(errCode);
+  /* disable the uart reception, if any */
+  uart_rx_disable(*uartAddress);
   
   /* release the device structure for a uart driver and verify the same */
   *uartAddress = NULL;

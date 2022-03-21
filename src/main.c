@@ -5,13 +5,14 @@
  */
 
 #include "DriveDriver.h"
-#include "LedDriver/LedDriver.h"
-#include "UartDriver/UartDriver.h"
+//#include "LedDriver/LedDriver.h"
+//#include "UartDriver/UartDriver.h"
 #include <zephyr.h>
 #include <device.h>
 #include <devicetree.h>
 #include <sys/printk.h>
 
 void main(void) {
-  printk("driveLed() err_code : %d\n",driveLed());
+  printk("driveLed()  err_code : %d\n",driveLed());
+  printk("driveUart() err_code : %d\n",driveUart());
 }
