@@ -3,13 +3,17 @@
 #include <string.h>
 #include <sys/printk.h>
 
-const char * ledCmdList[] = {
-  "led create",
-  "led all on",
-  "led all off",
-  "led destroy",
+/* filling the led commands */
+static const ledCmd_t ledCmdList[] = {
+  {"led create" , "LedDriver_Create()"    , LedDriver_Create    , "create an instance of an led"},
+  {"led all on" , "LedDriver_TurnAllOn()" , LedDriver_TurnAllOn , "turn on all the led's"},
+  {"led all off", "LedDriver_TurnAllOff()", LedDriver_TurnAllOff, "turn off all the led's"},
+  {"led destroy", "LedDriver_Destroy()"   , LedDriver_Destroy   , "destroy an instance of an led"},
 };
 
+static const int ledCmdListLen = sizeof(ledCmdList)/sizeof(ledCmdList[0]);
+
+/* I will parse the incoming data */
 void parseData(const char * data, const uint32_t dataLen) {
   printk("***** data frame recieved *****\n");
   printk("data : %s\n", data);
@@ -17,33 +21,31 @@ void parseData(const char * data, const uint32_t dataLen) {
   printk("***** data frame recieved *****\n\n");
 }
 
+/* Iwill parse the incoming command */
 void parseCommand(const char * cmd, const uint32_t cmdLen) {
   printk("***** cmd frame recieved *****\n");
   printk("cmd : %s\n", cmd);
   printk("cmdLen : %d\n", cmdLen);
     
   int retVal;
+  bool isCmdFound = false;
+  
+  /* loop over all the led commands, If matches to any available command then call the
+   * respective api using function pointer and set the flag and break the looping 
+   */
+  for(int i=0; i<ledCmdListLen; i++) {
+    if(strcmp(cmd, ledCmdList[i].cmd) == 0) {
+      retVal = (ledCmdList[i].api)();
+      printk("%s : %d\n",ledCmdList[i].apiName, retVal);
+      isCmdFound = true;
+      break;
+    }
+  }
 
-  if(strcmp(cmd, ledCmdList[0]) == 0) {
-    retVal = LedDriver_Create();
-    printk("LedDriver_Create : %d\n",retVal);
-  }
-  else if(strcmp(cmd, ledCmdList[1]) == 0) {
-    retVal = LedDriver_TurnAllOn();
-    printk("LedDriver_TurnAllOn : %d\n",retVal);
-  }
-  else if(strcmp(cmd, ledCmdList[2]) == 0) {
-    retVal = LedDriver_TurnAllOff();
-    printk("LedDriver_TurnAllOff : %d\n",retVal);
-  }
-  else if(strcmp(cmd, ledCmdList[3]) == 0) {
-    retVal = LedDriver_Destroy();
-    printk("LedDriver_Destroy : %d\n",retVal);
-  }
-  else {
-    printk("Unknown Command !!\n");
+  /* If command is not found then let user know about it */
+  if(!isCmdFound) {
+    printk("Unknown Command\n");
   }
 
   printk("***** cmd frame recieved *****\n\n");
-
 }
