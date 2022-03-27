@@ -1,21 +1,19 @@
 #ifndef A_Cli_H
 #define A_Cli_H
 
-
 #include <stdint.h>
 
 /* data structure to represnt the cmd properties */
 typedef struct {
   const char * cmd;
-  const char * apiName;
-  int (*api)();
+  int (*handler)(int argc, char * argv);
   const char * desc;
-} ledCmd_t; 
+} ShellCommands_t; 
 
 /* function prototypes starts */
 
-void parseData(const char * data, const uint32_t dataLen);
-void parseCommand(const char * cmd, const uint32_t cmdLen);
+void Cli_Create();
+void Cli_Destroy();
 
 /* function prototypes ends */
 

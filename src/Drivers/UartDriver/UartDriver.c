@@ -10,8 +10,8 @@
 uartData_t uartTxRx;
 uint8_t rxBufTemp[UART_RX_BUF_SIZE] = "";
 
-/* cli thread handle */
-extern k_tid_t tid_CliThread;
+/* uart thread handle */
+extern k_tid_t tid_UartThread;
 
 
 /*
@@ -45,7 +45,7 @@ static void UartDriver_UartCallback(const struct device * uartDev, struct uart_e
         uartTxRx.rxBufLen = uartEvt->data.rx.len;
         memset(uartTxRx.rxBuf, 0, UART_RX_BUF_SIZE);
         memcpy(uartTxRx.rxBuf, (uartEvt->data.rx.buf + uartEvt->data.rx.offset), uartTxRx.rxBufLen);
-        k_thread_resume(tid_CliThread);
+        k_thread_resume(tid_UartThread);
         break;
 
     case UART_RX_BUF_REQUEST:
