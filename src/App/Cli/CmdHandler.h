@@ -3,6 +3,8 @@
 
 /* function prototypes starts */
 
+int Cmd_UnitTestsHandler(char *argv);
+
 int Cmd_LedCreateHandler(char * argv);
 int Cmd_LedDestroyHandler(char * argv);
 int Cmd_LedOnHandler(char * argv);

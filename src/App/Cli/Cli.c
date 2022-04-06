@@ -10,8 +10,9 @@ bool isCliMode = false;
 uint8_t cliStartFrame[] = "hi bhai";
 uint8_t cliStopFrame[] = "bye bhai";
 
-/* led module commands */
-static const CliCommands_t ledCmdList[] = {
+/* cli commands */
+static const CliCommands_t cliCmdList[] = {
+  {"unit tests run kar bhai"      , Cmd_UnitTestsHandler , "run the pre defined unit tests"},
   {"led instance create kar bhai" , Cmd_LedCreateHandler , "create an instance of an led driver"},
   {"led instance destroy kar bhai", Cmd_LedDestroyHandler, "destroy an instance of an led driver"},
   {"led on kar bhai "             , Cmd_LedOnHandler     , "turn on respective led"},
@@ -21,7 +22,7 @@ static const CliCommands_t ledCmdList[] = {
   {"led off hai kya bhai "        , Cmd_LedIsOffHandler  , "is respective led off"}
 };
 
-static const int ledCmdListLen = sizeof(ledCmdList)/sizeof(ledCmdList[0]);
+static const int cliCmdListLen = sizeof(cliCmdList)/sizeof(cliCmdList[0]);
 
 static void getCliBuf(const char * cmdFrame, const uint32_t cmdFrameLen) {
   /* clear the cli cmd buffer and cli argument buffer */
@@ -54,9 +55,9 @@ static void doSomething() {
   /* loop over all the led commands, If matches to any available command then call the
    * respective handler, set the flag and break the looping. 
    */
-  for(int i=0; i<ledCmdListLen; i++) {
-    if(strcmp(cliCmdBuf, ledCmdList[i].cmd) == 0) {
-      retVal = (ledCmdList[i].handler)(cliArgBuf);
+  for(int i=0; i<cliCmdListLen; i++) {
+    if(strcmp(cliCmdBuf, cliCmdList[i].cmd) == 0) {
+      retVal = (cliCmdList[i].handler)(cliArgBuf);
       printk("Shandaar bhai\n");
       printk("retVal : %d\n", retVal);
       isCmdFound = true;

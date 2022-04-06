@@ -4,6 +4,11 @@
 #include <stdlib.h>
 #include <sys/printk.h>
 
+int Cmd_UnitTestsHandler(char * argv) {
+  extern int unity_main(void);
+  return unity_main();
+}
+
 int Cmd_LedCreateHandler(char * argv) {
   return LedDriver_Create();
 }
