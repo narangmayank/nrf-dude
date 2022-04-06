@@ -7,7 +7,7 @@
 
 char cliCmdBuf[CLI_CMD_BUF_SIZE] = "";
 char cliArgBuf[CLI_ARG_BUF_SIZE] = "";
-//char cliResBuf[CLI_ARG_BUF_SIZE] = "";  // may be used in future
+char cliResBuf[CLI_RES_BUF_SIZE] = "";  
 
 bool isCliMode = false;
 uint8_t cliStartFrame[] = "hi bhai";
@@ -65,6 +65,8 @@ static void doSomething() {
   int retVal;
   bool isCmdFound = false;
   
+  memset(cliResBuf, 0x00, CLI_RES_BUF_SIZE);
+
   /* loop over all the led commands, If matches to any available command then call the
    * respective handler, set the flag and break the looping. 
    */
@@ -73,7 +75,7 @@ static void doSomething() {
       retVal = (cliCmdList[i].handler)(cliArgBuf);
       printk("Shandaar bhai\n");
       printk("retVal : %d\n", retVal);
-      Cli_Respond(cliSuccessMsg, strlen(cliSuccessMsg));
+      memcpy(cliResBuf, cliSuccessMsg, strlen(cliSuccessMsg));
       isCmdFound = true;
       break;
     }
@@ -83,8 +85,10 @@ static void doSomething() {
   if(!isCmdFound) {
     printk("Arre Bhai Bhai Bhai !!!\n");
     printk("> kya kar rha hai tu??... Unknown Command\n");
-    Cli_Respond(cliFailureMsg, strlen(cliFailureMsg));
+    memcpy(cliResBuf, cliFailureMsg, strlen(cliFailureMsg));
   }
+
+  strcat(cliResBuf, cliPrompt);
 }
 
 void Cli_Create() {
@@ -106,9 +110,8 @@ void Cli_Process(const char * cmdFrame, const uint32_t cmdFrameLen) {
   /* do something */
   doSomething();  
 
-  /* keep the cli prompt for next cmd */
-  k_msleep(100);
-  Cli_Respond(cliPrompt, strlen(cliPrompt));
+  /* kidnly keep the cli prompt for next cmd */
+  Cli_Respond(cliResBuf, strlen(cliResBuf));
 }
 
 void Cli_Respond(const char * resFrame, const uint32_t resFrameLen) {

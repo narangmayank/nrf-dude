@@ -5,7 +5,7 @@
 
 #define CLI_CMD_BUF_SIZE 30
 #define CLI_ARG_BUF_SIZE 30
-//#define CLI_RES_BUF_SIZE 60    // may be used in future
+#define CLI_RES_BUF_SIZE 60    
 
 /* data structure to represnt the cmd properties */
 typedef struct {
