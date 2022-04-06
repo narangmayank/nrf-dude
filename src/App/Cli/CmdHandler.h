@@ -7,6 +7,7 @@ int Cmd_LedCreateHandler(char * argv);
 int Cmd_LedDestroyHandler(char * argv);
 int Cmd_LedOnHandler(char * argv);
 int Cmd_LedOffHandler(char * argv);
+int Cmd_LedToggleHandler(char * argv);
 
 /* function prototypes ends */
 

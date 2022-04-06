@@ -12,10 +12,11 @@ uint8_t cliStopFrame[] = "bye bhai";
 
 /* led module commands */
 static const CliCommands_t ledCmdList[] = {
-  {"led create kar bhai" , Cmd_LedCreateHandler , "create an instance of an led driver"},
-  {"led destroy kar bhai", Cmd_LedDestroyHandler, "destroy an instance of an led driver"},
-  {"led on kar bhai "    , Cmd_LedOnHandler     , "turn on respective led"},
-  {"led off kar bhai "   , Cmd_LedOffHandler    , "turn off respective led"}
+  {"led instance create kar bhai" , Cmd_LedCreateHandler , "create an instance of an led driver"},
+  {"led instance destroy kar bhai", Cmd_LedDestroyHandler, "destroy an instance of an led driver"},
+  {"led on kar bhai "             , Cmd_LedOnHandler     , "turn on respective led"},
+  {"led off kar bhai "            , Cmd_LedOffHandler    , "turn off respective led"},
+  {"led toggle kar bhai "         , Cmd_LedToggleHandler , "toggle respective led"}
 };
 
 static const int ledCmdListLen = sizeof(ledCmdList)/sizeof(ledCmdList[0]);
