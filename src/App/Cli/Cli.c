@@ -1,14 +1,22 @@
+#include "Utils.h"
 #include "Cli/Cli.h"
 #include "Cli/CmdHandler.h"
+#include "UartDriver/UartDriver.h"
 #include <string.h>
 #include <sys/printk.h>
 
 char cliCmdBuf[CLI_CMD_BUF_SIZE] = "";
 char cliArgBuf[CLI_ARG_BUF_SIZE] = "";
+//char cliResBuf[CLI_ARG_BUF_SIZE] = "";  // may be used in future
 
 bool isCliMode = false;
 uint8_t cliStartFrame[] = "hi bhai";
 uint8_t cliStopFrame[] = "bye bhai";
+
+uint8_t cliPrompt[] = "\nnrf-bhai>$";
+uint8_t cliSuccessMsg[] = "Shandaar Bhai\n";
+uint8_t cliFailureMsg[] = "Arre Bhai Bhai Bhai !!!\n";
+uint8_t cliExitMsg[] = "acha chalta hu duaoo me yad rkhna!\n\n$";
 
 /* cli commands */
 static const CliCommands_t cliCmdList[] = {
@@ -23,6 +31,11 @@ static const CliCommands_t cliCmdList[] = {
 };
 
 static const int cliCmdListLen = sizeof(cliCmdList)/sizeof(cliCmdList[0]);
+
+
+/* uart driver instance */
+extern const struct device * uartDev_2;
+
 
 static void getCliBuf(const char * cmdFrame, const uint32_t cmdFrameLen) {
   /* clear the cli cmd buffer and cli argument buffer */
@@ -60,6 +73,7 @@ static void doSomething() {
       retVal = (cliCmdList[i].handler)(cliArgBuf);
       printk("Shandaar bhai\n");
       printk("retVal : %d\n", retVal);
+      Cli_Respond(cliSuccessMsg, strlen(cliSuccessMsg));
       isCmdFound = true;
       break;
     }
@@ -69,17 +83,20 @@ static void doSomething() {
   if(!isCmdFound) {
     printk("Arre Bhai Bhai Bhai !!!\n");
     printk("> kya kar rha hai tu??... Unknown Command\n");
+    Cli_Respond(cliFailureMsg, strlen(cliFailureMsg));
   }
 }
 
 void Cli_Create() {
   isCliMode = true;
   printk("Cli Created !!\n\n");
+  Cli_Respond(cliPrompt, strlen(cliPrompt));
 }
 
 void Cli_Destroy() {
   isCliMode = false;
   printk("Cli Destroyed !!\n\n");
+  Cli_Respond(cliExitMsg, strlen(cliExitMsg));
 }
 
 void Cli_Process(const char * cmdFrame, const uint32_t cmdFrameLen) {  
@@ -88,4 +105,15 @@ void Cli_Process(const char * cmdFrame, const uint32_t cmdFrameLen) {
 
   /* do something */
   doSomething();  
+
+  /* keep the cli prompt for next cmd */
+  k_msleep(100);
+  Cli_Respond(cliPrompt, strlen(cliPrompt));
+}
+
+void Cli_Respond(const char * resFrame, const uint32_t resFrameLen) {
+  int errCode;
+
+  errCode = UartDriver_TxData(uartDev_2, resFrame, resFrameLen, UART_RX_TIMEOUT_MS);
+  VERIFY_SUCCESS(errCode);
 }

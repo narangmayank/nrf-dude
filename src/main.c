@@ -16,7 +16,7 @@
 #define RUN_UNIT_TEST 0
 #define RUN_FUNCTIONALITY_TEST 0
 
-const struct device * uartDev_0 = NULL;
+const struct device * uartDev_2 = NULL;
 
 void main(void) {
   
@@ -30,5 +30,5 @@ void main(void) {
     printk("unity_main() err_code : %d",unity_main());
   #endif
 
-  UartDriver_Create(&uartDev_0, UART_PORT_0, UART_BAUDRATE_115200);
+  UartDriver_Create(&uartDev_2, UART_PORT_2, UART_BAUDRATE_115200);
 }

@@ -5,7 +5,7 @@
 
 #define CLI_CMD_BUF_SIZE 30
 #define CLI_ARG_BUF_SIZE 30
-#define CLI_RES_BUF_SIZE 60
+//#define CLI_RES_BUF_SIZE 60    // may be used in future
 
 /* data structure to represnt the cmd properties */
 typedef struct {
@@ -19,6 +19,7 @@ typedef struct {
 void Cli_Create();
 void Cli_Destroy();
 void Cli_Process(const char * cmdFrame, const uint32_t cmdFrameLen);
+void Cli_Respond(const char * resFrame, const uint32_t resFrameLen);
 
 /* function prototypes ends */
 

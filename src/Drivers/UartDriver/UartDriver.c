@@ -165,8 +165,8 @@ int UartDriver_Create(const struct device ** uartAddress, uint32_t uartPort, uin
   }
   
   /* transmit the respective buffer through uart */
-  errCode = uart_tx(*uartAddress, uartTxRx.txBuf, uartTxRx.txBufLen, UART_RX_TIMEOUT_MS);
-  VERIFY_SUCCESS(errCode);
+  //errCode = uart_tx(*uartAddress, uartTxRx.txBuf, uartTxRx.txBufLen, UART_RX_TIMEOUT_MS);
+  //VERIFY_SUCCESS(errCode);
   
   return APP_SUCCESS;
 }
