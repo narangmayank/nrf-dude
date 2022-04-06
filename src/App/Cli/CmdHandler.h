@@ -8,6 +8,8 @@ int Cmd_LedDestroyHandler(char * argv);
 int Cmd_LedOnHandler(char * argv);
 int Cmd_LedOffHandler(char * argv);
 int Cmd_LedToggleHandler(char * argv);
+int Cmd_LedIsOnHandler(char * argv);
+int Cmd_LedIsOffHandler(char * argv);
 
 /* function prototypes ends */
 

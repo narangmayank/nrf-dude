@@ -29,6 +29,6 @@ void main(void) {
     extern int unity_main(void);
     printk("unity_main() err_code : %d",unity_main());
   #endif
-  
+
   UartDriver_Create(&uartDev_0, UART_PORT_0, UART_BAUDRATE_115200);
 }

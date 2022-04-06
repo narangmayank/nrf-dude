@@ -44,7 +44,7 @@ int Cmd_LedOffHandler(char * argv) {
 
 int Cmd_LedToggleHandler(char * argv) {
   if(strcmp(argv, "") == 0) {
-    printk("bhai kya kar rha hai tu, konsi led off karu ye to bta?\n");
+    printk("bhai kya kar rha hai tu, konsi led toggle karu ye to bta?\n");
     return 22;
   }
   
@@ -55,4 +55,34 @@ int Cmd_LedToggleHandler(char * argv) {
   uint32_t index = atoi(argv);
   printk("led index : %d\n", index);
   return LedDriver_TurnOpposite(index);
+}
+
+int Cmd_LedIsOnHandler(char * argv) {
+  if(strcmp(argv, "") == 0) {
+    printk("bhai kya kar rha hai tu, konsi led on hai ya nhi ye to bta?\n");
+    return 22;
+  }
+  
+  if(strcmp(argv, " all") == 0) {
+    return  LedDriver_IsAllOn();
+  }
+
+  uint32_t index = atoi(argv);
+  printk("led index : %d\n", index);
+  return LedDriver_IsOn(index);
+}
+
+int Cmd_LedIsOffHandler(char * argv) {
+  if(strcmp(argv, "") == 0) {
+    printk("bhai kya kar rha hai tu, konsi led off hai ya nhi ye to bta?\n");
+    return 22;
+  }
+  
+  if(strcmp(argv, " all") == 0) {
+    return  LedDriver_IsAllOff();
+  }
+
+  uint32_t index = atoi(argv);
+  printk("led index : %d\n", index);
+  return LedDriver_IsOff(index);
 }
