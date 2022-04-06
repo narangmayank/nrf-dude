@@ -13,10 +13,19 @@ extern bool isCliMode;
 extern uint8_t cliStartFrame[];
 extern uint8_t  cliStopFrame[];
 
-/* configuring the cli thread */
+/* configuring the uart thread */
 K_THREAD_DEFINE(tid_UartThread, UART_THREAD_STACK_SIZE, UartThread, ARG_1, ARG_2, ARG_3, UART_THREAD_PRIORITY, 0, 0);
 
-/* entry point of the thread */
+/*
+ * @brief Function represents the entry point of the uart thread. 
+ *
+ * @param arg1 pointer to dummy arg1.
+ * @param arg1 pointer to dummy arg2.
+ * @param arg1 pointer to dummy arg3.
+ *
+ * @retval None.
+ *
+ */
 void UartThread(void * arg1, void * arg2, void * arg3) {
   int taskCounter = 0;
   
@@ -37,6 +46,14 @@ void UartThread(void * arg1, void * arg2, void * arg3) {
   }
 }
 
+/*
+ * @brief Function to print the recived frame. 
+ *
+ * @param None.
+ *
+ * @retval None.
+ *
+ */
 void printRecievedFrame() {
   printk("***** new frame recieved *****\n");
   printk("frame : %s\n", uartTxRx.rxBuf);
@@ -44,7 +61,15 @@ void printRecievedFrame() {
   printk("***** new frame recieved *****\n\n");
 }
 
-/* check for the mode and take the neccessary actions */
+/*
+ * @brief Function to check for the mode and based on it either switch the mode or take 
+ * the neccessary actions. 
+ *
+ * @param None.
+ *
+ * @retval None.
+ *
+ */
 void parseRecievedFrame() {
   /* In cmd mode , we will parse the command but before this kindly check if 
    * user wants to exit the cli or not. 
@@ -59,6 +84,7 @@ void parseRecievedFrame() {
     /* checking for cmd stop cmd */
     if(rxFrameLen == cliStopFrameLen) {
       if(memcmp(uartTxRx.rxBuf, cliStopFrame, rxFrameLen) == 0) {
+        printk("cli stop frame found, switching back to data mode !!\n");
         Cli_Destroy();
       }
       else {
@@ -82,6 +108,7 @@ void parseRecievedFrame() {
     /* checking for cmd start cmd */
     if(rxFrameLen == cliStartFrameLen) {
       if(memcmp(uartTxRx.rxBuf, cliStartFrame, rxFrameLen) == 0) {
+        printk("cli start frame found, switching to cli mode !!\n");
         Cli_Create();
       }
       else {
@@ -94,55 +121,33 @@ void parseRecievedFrame() {
   }  
 }
 
-/* I will parse the incoming data */
+/*
+ * @brief Function to parse the recieved data. 
+ *
+ * @param dataFrame    pointer to the data buffer.
+ * @param dataFrameLen length of the data buffer.
+ *
+ * @retval None.
+ *
+ */
 void parseDataFrame(const char * dataFrame, const uint32_t dataFrameLen) {
   printk("Hi, I will parse this data !!\n\n");
 
   /* do something here */
-
-
 }
 
-/* Iwill parse the incoming command */
+/*
+ * @brief Function to parse the recieved cmd. 
+ *
+ * @param cmdFrame    pointer to the cmd buffer.
+ * @param cmdFrameLen length of the cmd buffer.
+ *
+ * @retval None.
+ *
+ */
 void parseCommandFrame(const char * cmdFrame, const uint32_t cmdFrameLen) {
   printk("Hi, I will parse this cmd !!\n\n");
 
   /* do something here */
-    
-  //char cmd[20] = "";
-  //char args[20] = "";
-  
-  //int wtIndex = 0;
-  //char * ptr = cmd;
-  //for(int i=0; i<cmdFrameLen; i++) {
-  //  if(cmdFrame[i] == ':') {
-  //    wtIndex = 0;
-  //    ptr = args;
-  //    continue;
-  //  }
-  //  ptr[wtIndex++] = cmdFrame[i];
-  //}
-
-  //printk("cmd : %s\n", cmd);
-  //printk("args : %s\n", args);
-
-  //int retVal;
-  //bool isCmdFound = false;
-  
-  ///* loop over all the led commands, If matches to any available command then call the
-  // * respective api using function pointer and set the flag and break the looping 
-  // */
-  //for(int i=0; i<ledCmdListLen; i++) {
-  //  if(strcmp(cmd, ledCmdList[i].cmd) == 0) {
-  //    retVal = (ledCmdList[i].handler)(1,args);
-  //    printk("retVal : %d\n", retVal);
-  //    isCmdFound = true;
-  //    break;
-  //  }
-  //}
-
-  ///* If command is not found then let user know about it */
-  //if(!isCmdFound) {
-  //  printk("Unknown Command\n");
-  //}
+  Cli_Process(cmdFrame, cmdFrameLen);
 }

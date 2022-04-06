@@ -11,6 +11,7 @@ zephyr_include_directories(src/Utils)
 # source files
 target_sources(app PRIVATE src/main.c)
 target_sources(app PRIVATE src/App/Cli/Cli.c)
+target_sources(app PRIVATE src/App/Cli/CmdHandler.c)
 target_sources(app PRIVATE src/App/UartThread/UartThread.c)
 target_sources(app PRIVATE src/Drivers/LedDriver/LedDriver.c)
 target_sources(app PRIVATE src/Drivers/UartDriver/UartDriver.c)

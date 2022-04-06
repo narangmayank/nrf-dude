@@ -1,84 +1,87 @@
 #include "Cli/Cli.h"
-#include "LedDriver/LedDriver.h"
-#include <stdlib.h>
+#include "Cli/CmdHandler.h"
 #include <string.h>
 #include <sys/printk.h>
+
+char cliCmdBuf[CLI_CMD_BUF_SIZE] = "";
+char cliArgBuf[CLI_ARG_BUF_SIZE] = "";
 
 bool isCliMode = false;
 uint8_t cliStartFrame[] = "hi bhai";
 uint8_t cliStopFrame[] = "bye bhai";
 
-int shellLedCreateHandler(int argc, char * argv) {
-  return LedDriver_Create();
-}
-
-int shellLedDestroyHandler(int argc, char * argv) {
-  return LedDriver_Destroy();
-}
-
-int shellLedAllOnHandler(int argc, char * argv) {
-  return LedDriver_TurnAllOn();
-}
-
-int shellLedAllOffHandler(int argc, char * argv) {
-  return LedDriver_TurnAllOff();
-}
-
-int shellLedOnHandler(int argc, char * argv) {
-  uint32_t index = atoi(argv);
-  printk("led index : %d\n", index);
-  return LedDriver_TurnOn(index);
-}
-
-int shellLedOffHandler(int argc, char * argv) {
-  uint32_t index = atoi(argv);
-  printk("led index : %d\n", index);
-  return LedDriver_TurnOff(index);
-}
-
-int shellLedToggleHandler(int argc, char * argv) {
-  uint32_t index = atoi(argv);
-  printk("led index : %d\n", index);
-  return LedDriver_TurnOpposite(index);
-}
-
-/* filling the led commands */
-static const ShellCommands_t ledCmdList[] = {
-  {"led create" , shellLedCreateHandler , "create an instance of an led" },
-  {"led destroy", shellLedDestroyHandler, "destroy an instance of an led"},
-  {"led all on" , shellLedAllOnHandler  , "turn on all led's"},
-  {"led all off", shellLedAllOffHandler , "turn off all led's"},
-  {"led on"     , shellLedOnHandler     , "turn on resoective led"},
-  {"led off"    , shellLedOffHandler    , "turn off resoective led"},
-  {"led toggle" , shellLedToggleHandler , "toggle resoective led"}
+/* led module commands */
+static const CliCommands_t ledCmdList[] = {
+  {"led create kar bhai" , Cmd_LedCreateHandler , "create an instance of an led driver"},
+  {"led destroy kar bhai", Cmd_LedDestroyHandler, "destroy an instance of an led driver"},
+  {"led on kar bhai "    , Cmd_LedOnHandler     , "turn on respective led"},
+  {"led off kar bhai "   , Cmd_LedOffHandler    , "turn off respective led"}
 };
 
 static const int ledCmdListLen = sizeof(ledCmdList)/sizeof(ledCmdList[0]);
 
+static void getCliBuf(const char * cmdFrame, const uint32_t cmdFrameLen) {
+  /* clear the cli cmd buffer and cli argument buffer */
+  memset(cliCmdBuf, 0x00, CLI_CMD_BUF_SIZE);
+  memset(cliArgBuf, 0x00, CLI_ARG_BUF_SIZE);
+
+  /* loop over the cmd frame and keep collecting data in cli cmd buffer until you
+   * not met ':' , once you met this guy then start collecting data in cli arg buffer
+   * ':' --> this is the seperator between command and arguments 
+   */
+  int wtIndex = 0;
+  char * ptr = cliCmdBuf;
+  for(int i=0; i<cmdFrameLen; i++) {
+    if(cmdFrame[i] == ':') {
+      wtIndex = 0;
+      ptr = cliArgBuf;
+      continue;
+    }
+    ptr[wtIndex++] = cmdFrame[i];
+  }
+
+  printk("cliCmdBuf : %s\n", cliCmdBuf);
+  printk("cliArgBuf : %s\n", cliArgBuf);
+}
+
+static void doSomething() {
+  int retVal;
+  bool isCmdFound = false;
+  
+  /* loop over all the led commands, If matches to any available command then call the
+   * respective handler, set the flag and break the looping. 
+   */
+  for(int i=0; i<ledCmdListLen; i++) {
+    if(strcmp(cliCmdBuf, ledCmdList[i].cmd) == 0) {
+      retVal = (ledCmdList[i].handler)(cliArgBuf);
+      printk("Shandaar bhai\n");
+      printk("retVal : %d\n", retVal);
+      isCmdFound = true;
+      break;
+    }
+  }
+
+  /* If command is not found then let user know about it */
+  if(!isCmdFound) {
+    printk("Arre Bhai Bhai Bhai !!!\n");
+    printk("> kya kar rha hai tu??... Unknown Command\n");
+  }
+}
+
 void Cli_Create() {
   isCliMode = true;
-  printk("Cli Created !!\n");
-  printk("cmd start frame found, switching to cmd mode !!\n\n");
-
-  //for(int i=0; i<ledCmdListLen; i++) {
-  //  strcpy(cliCmdList[i].cmd, ledCmdList[i].cmd);
-  //  strcpy(cliCmdList[i].apiName, ledCmdList[i].apiName);
-  //  cliCmdList[i].api = ledCmdList[i].api;
-  //  strcpy(cliCmdList[i].desc, ledCmdList[i].desc);
-  //}
+  printk("Cli Created !!\n\n");
 }
 
 void Cli_Destroy() {
   isCliMode = false;
-  printk("Cli Destroyed !!\n");
-  printk("cmd stop frame found, switching to data mode !!\n\n");
-
-  //for(int i=0; i<ledCmdListLen; i++) {
-  //  strcpy(cliCmdList[i].cmd, ledCmdList[i].cmd);
-  //  strcpy(cliCmdList[i].apiName, ledCmdList[i].apiName);
-  //  cliCmdList[i].api = ledCmdList[i].api;
-  //  strcpy(cliCmdList[i].desc, ledCmdList[i].desc);
-  //}
+  printk("Cli Destroyed !!\n\n");
 }
 
+void Cli_Process(const char * cmdFrame, const uint32_t cmdFrameLen) {  
+  /* fill cli cmd buf and arg buf */
+  getCliBuf(cmdFrame, cmdFrameLen);
 
+  /* do something */
+  doSomething();  
+}
