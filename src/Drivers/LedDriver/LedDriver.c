@@ -235,3 +235,27 @@ int LedDriver_TurnAllOff() {
 
   return APP_SUCCESS;
 }
+
+/*
+ * @brief Function for toggling all the available led's. 
+ *
+ * @param None.
+ *
+ * @retval APP_SUCCESS If all led's was toggled successfully. Otherwise, an error code is returned.
+ *
+ */
+int LedDriver_TurnAllOpposite() {
+  uint32_t i;
+  int errCode;
+  
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+
+  /* toggle all the led's which are there in ledList array */
+  for (i = 0; i < LEDS_NUMBER; ++i) {
+      errCode = LedDriver_TurnOpposite(i);
+      VERIFY_SUCCESS(errCode);
+  }
+
+  return APP_SUCCESS;
+}

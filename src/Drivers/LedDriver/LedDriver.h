@@ -40,6 +40,7 @@ bool LedDriver_IsOff(uint32_t ledIdx);
 
 int LedDriver_TurnAllOn();
 int LedDriver_TurnAllOff();
+int LedDriver_TurnAllOpposite();
 
 /* function prototypes end  */
 
