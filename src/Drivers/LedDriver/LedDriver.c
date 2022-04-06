@@ -259,3 +259,47 @@ int LedDriver_TurnAllOpposite() {
 
   return APP_SUCCESS;
 }
+
+/*
+ * @brief Function for checking whether all the led's are ON or Not. 
+ *
+ * @param None.
+ *
+ * @retval true If all the led's are ON. Otherwise false.
+ *
+ */
+bool LedDriver_IsAllOn() {
+  uint32_t i;
+  bool ledStatus;
+  
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+
+  /* check whether all the led's are ON or not */
+  for (i = 0; i < LEDS_NUMBER; ++i) {
+      ledStatus = LedDriver_IsOn(i);
+
+      /* if any led found to be off, return from there and give false */
+      if(ledStatus == false) {
+        return ledStatus;
+      }
+  }
+  
+  return ledStatus;
+}
+
+/*
+ * @brief Function for checking whether all the led's are OFF or Not. 
+ *
+ * @param None.
+ *
+ * @retval true If all the led's are OFF. Otherwise false.
+ *
+ */
+bool LedDriver_IsAllOff() {
+  /* validate the led dev pointer */
+  VERIFY_PARAM_NOT_NULL(ledAddress);
+  
+  /* just return the opposite of LedDriver_IsOn() */
+  return !LedDriver_IsAllOn();
+}

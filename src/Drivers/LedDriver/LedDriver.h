@@ -42,6 +42,9 @@ int LedDriver_TurnAllOn();
 int LedDriver_TurnAllOff();
 int LedDriver_TurnAllOpposite();
 
+bool LedDriver_IsAllOn();
+bool LedDriver_IsAllOff();
+
 /* function prototypes end  */
 
 #endif /* D_LedDriver_H */
