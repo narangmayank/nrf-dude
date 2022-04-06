@@ -1,0 +1,7 @@
+hi bhai
+led instance create kar bhai
+led on kar bhai : all
+led off kar bhai : all
+led toggle kar bhai : all
+led instance destroy kar bhai
+bye bhai
