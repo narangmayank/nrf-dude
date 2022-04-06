@@ -297,9 +297,21 @@ bool LedDriver_IsAllOn() {
  *
  */
 bool LedDriver_IsAllOff() {
+  uint32_t i;
+  bool ledStatus;
+
   /* validate the led dev pointer */
   VERIFY_PARAM_NOT_NULL(ledAddress);
   
-  /* just return the opposite of LedDriver_IsOn() */
-  return !LedDriver_IsAllOn();
+  /* check whether all the led's are OFF or not */
+  for (i = 0; i < LEDS_NUMBER; ++i) {
+      ledStatus = LedDriver_IsOff(i);
+
+      /* if any led found to be on, return from there and give false */
+      if(ledStatus == false) {
+        return ledStatus;
+      }
+  }
+  
+  return ledStatus;
 }
