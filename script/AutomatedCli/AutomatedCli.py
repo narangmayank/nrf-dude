@@ -1,9 +1,13 @@
-import time
+import sys
 import serial
+
+UART_COMPORT  = sys.argv[1]
+UART_BAUDRATE = sys.argv[2]
 
 f_log_ptr = open("cliLogs.txt","w")
 f_cmd_ptr = open("cliCommands.txt","r")
-serial_ptr = serial.Serial("COM6", 115200)
+
+serial_ptr = serial.Serial(UART_COMPORT, UART_BAUDRATE)
 
 def putCommand():
     cmd  = f_cmd_ptr.readline()
@@ -37,6 +41,6 @@ def doSomething() :
     while 1 :    
         putCommand()
         getResponse()
-        #time.sleep(1)
-
-doSomething()
+        
+if __name__ == "__main__":
+    doSomething()
