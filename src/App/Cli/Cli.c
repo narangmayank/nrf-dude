@@ -2,6 +2,7 @@
 #include "Cli/Cli.h"
 #include "Cli/CmdHandler.h"
 #include "UartDriver/UartDriver.h"
+#include <stdio.h>
 #include <string.h>
 #include <sys/printk.h>
 
@@ -14,8 +15,8 @@ uint8_t cliStartFrame[] = "hi bhai";
 uint8_t cliStopFrame[] = "bye bhai";
 
 uint8_t cliPrompt[] = "\nnrf-bhai>$";
-uint8_t cliSuccessMsg[] = "Shandaar Bhai\n";
-uint8_t cliFailureMsg[] = "Arre Bhai Bhai Bhai !!!\n";
+uint8_t cliSuccessMsg[] = "Shandaar Bhai (err_code : ";
+uint8_t cliFailureMsg[] = "Arre Bhai Bhai Bhai !!! (Unknown Command)\n";
 uint8_t cliExitMsg[] = "acha chalta hu duaoo me yad rkhna!\n\n$";
 
 /* cli commands */
@@ -63,6 +64,7 @@ static void getCliBuf(const char * cmdFrame, const uint32_t cmdFrameLen) {
 
 static void doSomething() {
   int retVal;
+  char buff[3];
   bool isCmdFound = false;
   
   memset(cliResBuf, 0x00, CLI_RES_BUF_SIZE);
@@ -72,10 +74,20 @@ static void doSomething() {
    */
   for(int i=0; i<cliCmdListLen; i++) {
     if(strcmp(cliCmdBuf, cliCmdList[i].cmd) == 0) {
+      /* oh, cmd found ! */
       retVal = (cliCmdList[i].handler)(cliArgBuf);
+
+      /* give logs in debug terminal */
       printk("Shandaar bhai\n");
       printk("retVal : %d\n", retVal);
+
+      /* generate response for this cmd */
       memcpy(cliResBuf, cliSuccessMsg, strlen(cliSuccessMsg));
+      sprintf(buff, "%d", retVal);
+      strcat(cliResBuf, buff);
+      strcat(cliResBuf, ")\n");
+      
+      /* set this bool to get info about cmd found */
       isCmdFound = true;
       break;
     }
@@ -83,11 +95,17 @@ static void doSomething() {
 
   /* If command is not found then let user know about it */
   if(!isCmdFound) {
+    /* oh no, seems like user has done mistake while typing ! */
+
+    /* give logs in debug terminal */
     printk("Arre Bhai Bhai Bhai !!!\n");
     printk("> kya kar rha hai tu??... Unknown Command\n");
+
+    /* generate response for cmd not found */
     memcpy(cliResBuf, cliFailureMsg, strlen(cliFailureMsg));
   }
-
+  
+  /* keeping the cli prompt for next cmd */
   strcat(cliResBuf, cliPrompt);
 }
 
@@ -110,7 +128,7 @@ void Cli_Process(const char * cmdFrame, const uint32_t cmdFrameLen) {
   /* do something */
   doSomething();  
 
-  /* kidnly keep the cli prompt for next cmd */
+  /* give response to user after doing something */
   Cli_Respond(cliResBuf, strlen(cliResBuf));
 }
 

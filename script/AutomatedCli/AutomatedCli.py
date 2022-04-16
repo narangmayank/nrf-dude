@@ -29,7 +29,7 @@ def getResponse():
             break
         else :
             res += chr
-    
+
     f_log_ptr.write(res)
 
 def doSomething() :
@@ -37,6 +37,6 @@ def doSomething() :
     while 1 :    
         putCommand()
         getResponse()
-        time.sleep(1)
+        #time.sleep(1)
 
 doSomething()
