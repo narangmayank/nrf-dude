@@ -1,7 +1,7 @@
 # Run Time CLI for Embedded Systems in Bhailang Style
 
 
-## nrf-bhai command
+## nrf-bhai command's
 
 * hi bhai
     * Call the nrf-bhai
@@ -28,7 +28,7 @@ cd RunTimeCli
 batch\flash_hex.bat
 ```
 
-## Run Time CLI
+## RunTime CLI
 ```bash
 cd script\RunTimeCli
 python RunTimeCli.py  COM_PORT BAUDRATE
@@ -37,7 +37,7 @@ eg. python RunTimeCli.py COM6 115200
 Call the nrf bhai with "hi bhai" command
 
 nrf-bhai>your command goes here
-your response goes here
+bhai response comes here
 
 Release the nrf bhai with "bye bhai" command
 
@@ -54,3 +54,6 @@ eg. python AutomatedCli.py COM6 115200
 
 :: Automated Cli Session Logs will be stored inside cliLogs.txt file under AutomatedCli folder
 ```
+
+### Contribute
+Wanna Contribute? Give the [contribution guide](https://github.com/Mayank-124/RunTimeCli/blob/main/CONTRIBUTING.md) a read.
