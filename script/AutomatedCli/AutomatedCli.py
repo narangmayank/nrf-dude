@@ -1,15 +1,27 @@
 import sys
 import serial
 
-UART_COMPORT  = sys.argv[1]
-UART_BAUDRATE = sys.argv[2]
+isLogEnabled = False
+uartComPort  = sys.argv[1]
+uartBaudrate = sys.argv[2]
 
-f_log_ptr = open("cliLogs.txt","w")
+if(len(sys.argv) >= 4) :
+    if(sys.argv[3] == "LogSession") :
+        isLogEnabled = True
+    else :
+        isLogEnabled = False
+
+if(isLogEnabled) :
+    f_log_ptr = open("cliLogs.txt","w")
+
 f_cmd_ptr = open("cliCommands.txt","r")
-
-serial_ptr = serial.Serial(UART_COMPORT, UART_BAUDRATE)
+ser = serial.Serial(uartComPort, uartBaudrate)
 
 def putCommand():
+
+    global f_log_ptr
+    global isLogEnabled
+
     cmd  = f_cmd_ptr.readline()
 
     if not cmd :
@@ -19,22 +31,27 @@ def putCommand():
         cmd = cmd[0:-1]
     
     print(cmd)
-    serial_ptr.write(bytes(cmd, 'utf-8'))
+    ser.write(bytes(cmd, 'utf-8'))
 
-    f_log_ptr.write(cmd + '\n')
+    if(isLogEnabled) : 
+        f_log_ptr.write(cmd + '\n')
 
 def getResponse():
-    res = ""
 
+    global f_log_ptr
+    global isLogEnabled
+
+    response = ""
     while 1:
-        chr = serial_ptr.read(1).decode('utf-8')
+        chr = ser.read(1).decode('utf-8')
         if(chr == '$') :
-            print(res, end="")
+            print(response, end="")
             break
         else :
-            res += chr
-
-    f_log_ptr.write(res)
+            response += chr
+            
+    if(isLogEnabled) : 
+        f_log_ptr.write(response)
 
 def doSomething() :
 
