@@ -2,21 +2,33 @@ import sys
 import serial
 
 isCmdMode = False
-cliStartFrame = "hi bhai"
-cliStopFrame = "bye bhai"
+isLogEnabled = False
 
-UART_COMPORT  = sys.argv[1]
-UART_BAUDRATE = sys.argv[2]
+uartComPort  = sys.argv[1]
+uartBaudrate = sys.argv[2]
 
-f_log_ptr = open("cliLogs.txt","w")
-ser = serial.Serial(UART_COMPORT, UART_BAUDRATE)
+if(len(sys.argv) >= 4) :
+    if(sys.argv[3] == "LogSession") :
+        isLogEnabled = True
+    else :
+        isLogEnabled = False
+
+if(isLogEnabled) :
+    f_log_ptr = open("cliLogs.txt","w")
+
+ser = serial.Serial(uartComPort, uartBaudrate)
 
 def getResponse() :
+
+    global f_log_ptr
+    global isLogEnabled
+
     response = ""
     while 1:
         chr = ser.read(1).decode('utf-8')
         if(chr == '$') :
-            f_log_ptr.write(response)
+            if(isLogEnabled) :
+                f_log_ptr.write(response)
             print(response, end="")
             break
         else :
@@ -26,23 +38,28 @@ def doSomething() :
 
     global f_log_ptr
     global isCmdMode
-    global cliStartFrame
-    global cliStopFrame
+    global isLogEnabled
+
+    cliStartFrame = "hi bhai"
+    cliStopFrame = "bye bhai"
     
     while 1:
         data = input("")
         ser.write(bytes(data, 'utf-8'))
 
         if(data == cliStartFrame) :
-            f_log_ptr = open("cliLogs.txt","w")
+            if(isLogEnabled) :
+                f_log_ptr = open("cliLogs.txt","w")
             isCmdMode = True
 
         if(isCmdMode) :
-            f_log_ptr.write(data + '\n')
+            if(isLogEnabled) :
+                f_log_ptr.write(data + '\n')
             getResponse()
             
             if(data == cliStopFrame) :
-                f_log_ptr.close()
+                if(isLogEnabled) : 
+                    f_log_ptr.close()
                 isCmdMode = False
 
 if __name__ == "__main__":
