@@ -1,14 +1,6 @@
 hi bhai
 
-nrf-bhai>kaise ho is baatr 
-Arre Bhai Bhai Bhai !!! (Unknown Command)
-
 nrf-bhai>unit tests run kar bhai
-Shandaar Bhai (err_code : 0)
+Shandaar Bhai (err_code : 1)
 
-nrf-bhai>ach iu
-Arre Bhai Bhai Bhai !!! (Unknown Command)
-
-nrf-bhai>bye bhai
-acha chalta hu duaoo me yad rkhna!
-
+nrf-bhai>
