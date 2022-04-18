@@ -1,6 +1,9 @@
 hi bhai
 
 nrf-bhai>unit tests run kar bhai
-Shandaar Bhai (err_code : 1)
+Shandaar Bhai (err_code : 0)
+
+nrf-bhai>unit tests run kar bhai
+Shandaar Bhai (err_code : 0)
 
 nrf-bhai>

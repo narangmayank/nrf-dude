@@ -35,15 +35,15 @@ int LedDriver_TurnOn(uint32_t ledIdx);
 int LedDriver_TurnOff(uint32_t ledIdx);
 int LedDriver_TurnOpposite(uint32_t ledIdx);
 
-bool LedDriver_IsOn(uint32_t ledIdx);
-bool LedDriver_IsOff(uint32_t ledIdx);
+int LedDriver_IsOn(uint32_t ledIdx);
+int LedDriver_IsOff(uint32_t ledIdx);
 
 int LedDriver_TurnAllOn();
 int LedDriver_TurnAllOff();
 int LedDriver_TurnAllOpposite();
 
-bool LedDriver_IsAllOn();
-bool LedDriver_IsAllOff();
+int LedDriver_IsAllOn();
+int LedDriver_IsAllOff();
 
 /* function prototypes end  */
 

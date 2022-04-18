@@ -150,7 +150,7 @@ int LedDriver_TurnOpposite(uint32_t ledIdx) {
  * @retval true If the respective led is ON. Otherwise false.
  *
  */
-bool LedDriver_IsOn(uint32_t ledIdx) {
+int LedDriver_IsOn(uint32_t ledIdx) {
   /* validate the led dev pointer */
   VERIFY_PARAM_NOT_NULL(ledAddress);
 
@@ -177,7 +177,7 @@ bool LedDriver_IsOn(uint32_t ledIdx) {
  * @retval true If the respective led is OFF. Otherwise false.
  *
  */
-bool LedDriver_IsOff(uint32_t ledIdx) {
+int LedDriver_IsOff(uint32_t ledIdx) {
   /* validate the led dev pointer */
   VERIFY_PARAM_NOT_NULL(ledAddress);
 
@@ -268,7 +268,7 @@ int LedDriver_TurnAllOpposite() {
  * @retval true If all the led's are ON. Otherwise false.
  *
  */
-bool LedDriver_IsAllOn() {
+int LedDriver_IsAllOn() {
   uint32_t i;
   bool ledStatus;
   
@@ -296,7 +296,7 @@ bool LedDriver_IsAllOn() {
  * @retval true If all the led's are OFF. Otherwise false.
  *
  */
-bool LedDriver_IsAllOff() {
+int LedDriver_IsAllOff() {
   uint32_t i;
   bool ledStatus;
 
