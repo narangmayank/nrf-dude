@@ -20,6 +20,22 @@
 * bye bhai
     * Release the nrf-bhai
 
+## Development Environment
+Nordic Semiconductor have chosen Zephyr RTOS for firmware development on the nRF9160. You are welcome to follow Nordic's [instructions](https://www.nordicsemi.com/Products/Development-software/nrf-connect-sdk) for setting up the nRF Connect SDK. Currently it's based on [nRF Connect SDK](https://www.nordicsemi.com/Products/Development-software/nrf-connect-sdk) **v1.7.0**.
+
+## Prerequisites
+
+* **Hardware**
+    * The [nRF9160 DK](https://www.nordicsemi.com/Products/Development-hardware/nrf9160-dk)  
+    * Micro-USB cable
+    * [USB to TTL UART Serial Convertor Module](https://www.electronicscomp.com/cp2102-usb-to-ttl-serial-converter-module?gclid=Cj0KCQjwmPSSBhCNARIsAH3cYgZYxKicZp3K4ffDAOhflVfdwYnVYaJ4WPLYOvm-uyRn7_Nrcr6eSiAaAn-jEALw_wcB)
+
+* **Software**
+    * [nRF Connect for desktop](https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Connect-for-desktop) v3.3.0 (or newer)
+        * Install and open the Getting started assistant
+        * Follow all the steps in «Install the toolchain»
+    * [nRF Command Line Tools](https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Command-Line-Tools) v10.5.0 (or newer)
+
 ## Steps to build this demo
 
 ```bash
@@ -31,8 +47,8 @@ batch\flash_hex.bat
 ## RunTime CLI
 ```bash
 cd script\RunTimeCli
-python RunTimeCli.py  COM_PORT BAUDRATE
-eg. python RunTimeCli.py COM6 115200
+python RunTimeCli.py  COM_PORT BAUDRATE LOG_OPTION
+eg. python RunTimeCli.py COM6 115200 LogSession
 
 Call the nrf bhai with "hi bhai" command
 
@@ -47,8 +63,8 @@ Release the nrf bhai with "bye bhai" command
 ## Automated CLI
 ```bash
 cd script\AutomatedCli
-python AutomatedCli.py COM_PORT BAUDRATE
-eg. python AutomatedCli.py COM6 115200
+python AutomatedCli.py COM_PORT BAUDRATE LOG_OPTION
+eg. python AutomatedCli.py COM6 115200 LogSession
 
 :: You can setup your commands to automate inside cliCommands.txt file line by line 
 
