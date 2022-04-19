@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
-#define CLI_CMD_BUF_SIZE 30
-#define CLI_ARG_BUF_SIZE 30
-#define CLI_RES_BUF_SIZE 60    
+#define CLI_CMD_BUF_SIZE 50        // CLI Command Buffer Size
+#define CLI_ARG_BUF_SIZE 50        // CLI Argument Buffer Size
+#define CLI_RES_BUF_SIZE 100       // CLI Response Buffer Size
 
 /* data structure to represnt the cmd properties */
 typedef struct {

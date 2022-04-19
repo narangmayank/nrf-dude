@@ -21,14 +21,22 @@ uint8_t cliExitMsg[] = "acha chalta hu duaoo me yad rkhna!\n\n$";
 
 /* cli commands */
 static const CliCommands_t cliCmdList[] = {
-  {"unit tests run kar bhai"      , Cmd_UnitTestsHandler , "run the pre defined unit tests"},
-  {"led instance create kar bhai" , Cmd_LedCreateHandler , "create an instance of an led driver"},
-  {"led instance destroy kar bhai", Cmd_LedDestroyHandler, "destroy an instance of an led driver"},
+  {"unit tests run kar bhai", Cmd_UnitTestsHandler , "run unit tests"},
+
+  {"led instance create kar bhai" , Cmd_LedCreateHandler , "create the instance of led driver"},
+  {"led instance destroy kar bhai", Cmd_LedDestroyHandler, "destroy the instance of led driver"},
   {"led on kar bhai "             , Cmd_LedOnHandler     , "turn on respective led"},
   {"led off kar bhai "            , Cmd_LedOffHandler    , "turn off respective led"},
   {"led toggle kar bhai "         , Cmd_LedToggleHandler , "toggle respective led"},
   {"led on hai kya bhai "         , Cmd_LedIsOnHandler   , "is respective led on"},
-  {"led off hai kya bhai "        , Cmd_LedIsOffHandler  , "is respective led off"}
+  {"led off hai kya bhai "        , Cmd_LedIsOffHandler  , "is respective led off"},
+
+  {"uart instance create kar bhai" , Cmd_UartCreateHandler   , "create the instance of uart driver"},
+  {"uart instance destroy kar bhai", Cmd_UartDestroyHandler  , "destroy the instance of uart driver"},
+  {"uart tx kar bhai "             , Cmd_UartTxHandler       , "transmit data from uart"},
+  {"uart tx abort kar bhai"        , Cmd_UartTxAbortHandler  , "abort current uart transmission"},
+  {"uart rx enable kar bhai"       , Cmd_UartRxEnableHandler , "enable uart reception"},
+  {"uart rx disable kar bhai"      , Cmd_UartRxDisableHandler, "disable uart reception"}
 };
 
 static const int cliCmdListLen = sizeof(cliCmdList)/sizeof(cliCmdList[0]);
