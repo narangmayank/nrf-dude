@@ -1,5 +1,6 @@
 #include "Utils.h"
 #include "UartDriver/UartDriver.h"
+#include <errno.h>
 #include <unity.h>
 #include <string.h>
 #include <unity_fixture.h>
@@ -40,6 +41,27 @@ TEST(UartTestGroup, UartTxAbort) {
   TEST_ASSERT_EQUAL_INT(expectedValue, actualValue);
 } 
 
+/* abort currenr uart transmission does no harm */
+TEST(UartTestGroup, UartTxAbortDoesNoHarm) {
+  int expectedValue = -EFAULT;
+  int actualValue = UartDriver_TxAbort(Test_uartDev);
+  TEST_ASSERT_EQUAL_INT(expectedValue, actualValue);
+} 
+
+/* enable uart reception */
+TEST(UartTestGroup, UartRxEnable) {
+  int expectedValue = APP_SUCCESS;
+  int actualValue = UartDriver_RxEnable(Test_uartDev, Test_uartDevRxBuf, 20, UART_RX_TIMEOUT_MS);
+  TEST_ASSERT_EQUAL_INT(expectedValue, actualValue);
+} 
+
+/* disable uart reception */
+TEST(UartTestGroup, UartRxDisable) {
+  int expectedValue = APP_SUCCESS;
+  int actualValue = UartDriver_RxDisable(Test_uartDev);
+  TEST_ASSERT_EQUAL_INT(expectedValue, actualValue);
+} 
+
 /*********************************** Runner of UartTestGroup starts ***********************************/
 
 
@@ -48,6 +70,11 @@ TEST_GROUP_RUNNER(UartTestGroup)
   // Uart tx checks
   RUN_TEST_CASE(UartTestGroup, UartTxData);
   RUN_TEST_CASE(UartTestGroup, UartTxAbort);
+  RUN_TEST_CASE(UartTestGroup, UartTxAbortDoesNoHarm);
+
+  // Uart rx checks
+  RUN_TEST_CASE(UartTestGroup, UartRxEnable);
+  RUN_TEST_CASE(UartTestGroup, UartRxDisable);
 }
  
 

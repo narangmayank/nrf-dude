@@ -3,9 +3,9 @@
 
 #include <stdint.h>
 
-#define CLI_CMD_BUF_SIZE 50        // CLI Command Buffer Size
-#define CLI_ARG_BUF_SIZE 50        // CLI Argument Buffer Size
-#define CLI_RES_BUF_SIZE 100       // CLI Response Buffer Size
+#define CLI_CMD_BUF_SIZE 50        // Cli command buffer size
+#define CLI_ARG_BUF_SIZE 50        // Cli argument buffer size
+#define CLI_RES_BUF_SIZE 100       // Cli response buffer size
 
 /* data structure to represnt the cmd properties */
 typedef struct {
@@ -22,6 +22,5 @@ void Cli_Process(const char * cmdFrame, const uint32_t cmdFrameLen);
 void Cli_Respond(const char * resFrame, const uint32_t resFrameLen);
 
 /* function prototypes ends */
-
 
 #endif /* A_Cli_H */

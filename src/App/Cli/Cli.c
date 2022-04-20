@@ -6,20 +6,23 @@
 #include <string.h>
 #include <sys/printk.h>
 
+// Cli buffer's
 char cliCmdBuf[CLI_CMD_BUF_SIZE] = "";
 char cliArgBuf[CLI_ARG_BUF_SIZE] = "";
 char cliResBuf[CLI_RES_BUF_SIZE] = "";  
 
+// Cli variables
 bool isCliMode = false;
 uint8_t cliStartFrame[] = "hi bhai";
 uint8_t cliStopFrame[] = "bye bhai";
 
+// Cli messages
 uint8_t cliPrompt[] = "\nnrf-bhai>$";
 uint8_t cliSuccessMsg[] = "Shandaar Bhai (err_code : ";
 uint8_t cliFailureMsg[] = "Arre Bhai Bhai Bhai !!! (Unknown Command)\n";
 uint8_t cliExitMsg[] = "acha chalta hu duaoo me yad rkhna!\n\n$";
 
-/* cli commands */
+/* Cli command's */
 static const CliCommands_t cliCmdList[] = {
   {"unit tests run kar bhai"     , Cmd_UnitTestsHandler    , "run unit tests"},
   {"led unit tests run kar bhai" , Cmd_LedUnitTestsHandler , "run led unit tests"},
@@ -47,7 +50,7 @@ static const int cliCmdListLen = sizeof(cliCmdList)/sizeof(cliCmdList[0]);
 /* uart driver instance */
 extern const struct device * uartDev_2;
 
-
+/* seperate command and arguments from the recived command frane */
 static void getCliBuf(const char * cmdFrame, const uint32_t cmdFrameLen) {
   /* clear the cli cmd buffer and cli argument buffer */
   memset(cliCmdBuf, 0x00, CLI_CMD_BUF_SIZE);
@@ -72,6 +75,9 @@ static void getCliBuf(const char * cmdFrame, const uint32_t cmdFrameLen) {
   printk("cliArgBuf : %s\n", cliArgBuf);
 }
 
+/* If cmd found then execute it otherwise move on and prepare the response message
+ * based on the whats going on here 
+ */
 static void doSomething() {
   int retVal;
   char buff[3];
@@ -119,18 +125,21 @@ static void doSomething() {
   strcat(cliResBuf, cliPrompt);
 }
 
+/* Create the instance of Cli */
 void Cli_Create() {
   isCliMode = true;
   printk("Cli Created !!\n\n");
   Cli_Respond(cliPrompt, strlen(cliPrompt));
 }
 
+/* Destroy the instance of Cli */
 void Cli_Destroy() {
   isCliMode = false;
   printk("Cli Destroyed !!\n\n");
   Cli_Respond(cliExitMsg, strlen(cliExitMsg));
 }
 
+/* Process the recieved command frame */
 void Cli_Process(const char * cmdFrame, const uint32_t cmdFrameLen) {  
   /* fill cli cmd buf and arg buf */
   getCliBuf(cmdFrame, cmdFrameLen);
@@ -142,6 +151,7 @@ void Cli_Process(const char * cmdFrame, const uint32_t cmdFrameLen) {
   Cli_Respond(cliResBuf, strlen(cliResBuf));
 }
 
+/* Give the reponse for the command */
 void Cli_Respond(const char * resFrame, const uint32_t resFrameLen) {
   int errCode;
 
