@@ -1,5 +1,6 @@
 import sys
 import serial
+from colored import fg
 
 isLogEnabled = False
 uartComPort  = sys.argv[1]
@@ -45,13 +46,25 @@ def getResponse():
     while 1:
         chr = ser.read(1).decode('utf-8')
         if(chr == '$') :
-            print(response, end="")
+            if(isLogEnabled) : 
+                f_log_ptr.write(response)
+
+            magicIdx = response.find('\n')
+            actualRes = response[0:magicIdx]
+            cliPrompt = response[magicIdx:]
+
+            if(actualRes[0:8] == "Shandaar") :
+                print(fg('green') + actualRes + fg('white'), end="")
+            elif(actualRes[0:4] == "Arre") :
+                print(fg('red') + actualRes + fg('white'), end="")
+            else :
+                print(actualRes, end="")
+            
+            print(cliPrompt, end="")
+            
             break
         else :
             response += chr
-            
-    if(isLogEnabled) : 
-        f_log_ptr.write(response)
 
 def doSomething() :
 
