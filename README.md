@@ -7,6 +7,10 @@
     * Call the nrf-bhai
 * unit tests run kar bhai
     * Run the Unit tests
+* led unit tests run kar bhai
+    * Run the led module unit tests
+* uart unit tests run kar bhai
+    * Run the uart module unit tests
 * led instance create kar bhai
     * Init the led module
 * led on kar bhai : led_index
@@ -17,6 +21,18 @@
     * Toggle the led with index led_index where led_index can be {0, 1, 2, 3, all}
 * led instance destroy kar bhai
     * De-Init the led module
+* uart instance create kar bhai
+    * Init the uart module
+* uart tx kar bhai : tx_data
+    * Transmit data from uart with data as tx_data
+* uart tx abort kar bhai
+    * Abort the ongoing uart transmission if any
+* uart rx enable kar bhai
+    * Enable the uart reception
+* uart rx disable kar bhai
+    * Disable the uart reception
+* uart instance destroy kar bhai
+    * De-Init the uart module
 * bye bhai
     * Release the nrf-bhai
 
