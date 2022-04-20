@@ -1,5 +1,6 @@
 import sys
 import serial
+from colored import fg
 
 isCmdMode = False
 isLogEnabled = False
@@ -29,7 +30,20 @@ def getResponse() :
         if(chr == '$') :
             if(isLogEnabled) :
                 f_log_ptr.write(response)
-            print(response, end="")
+            
+            magicIdx = response.find('\n')
+            actualRes = response[0:magicIdx]
+            cliPrompt = response[magicIdx:]
+
+            if(actualRes[0:8] == "Shandaar") :
+                print(fg('green') + actualRes + fg('white'), end="")
+            elif(actualRes[0:4] == "Arre") :
+                print(fg('red') + actualRes + fg('white'), end="")
+            else :
+                print(actualRes, end="")
+            
+            print(cliPrompt, end="")
+
             break
         else :
             response += chr
