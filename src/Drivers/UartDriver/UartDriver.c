@@ -6,6 +6,9 @@
 #include <sys/printk.h>
 #include <drivers/uart.h>
 
+/* bool to check buffer overflow */
+bool isUartBuffFull = false;
+
 /* creating an instance of uart data structure for tx & rx */
 uartData_t uartTxRx;
 uint8_t rxBufTemp[UART_RX_BUF_SIZE] = "";
@@ -42,10 +45,26 @@ static void UartDriver_UartCallback(const struct device * uartDev, struct uart_e
 
     case UART_RX_RDY:
         //printk("Hi, I am UART_RX_RDY event\n");
-        uartTxRx.rxBufLen = uartEvt->data.rx.len;
-        memset(uartTxRx.rxBuf, 0, UART_RX_BUF_SIZE);
-        memcpy(uartTxRx.rxBuf, (uartEvt->data.rx.buf + uartEvt->data.rx.offset), uartTxRx.rxBufLen);
-        k_thread_resume(tid_UartThread);
+        if((uartEvt->data.rx.offset) + (uartEvt->data.rx.len) == 256) {
+          uartTxRx.rxBufLen = uartEvt->data.rx.len;
+          memset(uartTxRx.rxBuf, 0, UART_RX_BUF_SIZE);
+          memcpy(uartTxRx.rxBuf, (uartEvt->data.rx.buf + uartEvt->data.rx.offset), uartEvt->data.rx.len);
+          isUartBuffFull = true;
+        }
+        else {
+          if(isUartBuffFull) {
+            uartTxRx.rxBufLen += uartEvt->data.rx.len;
+            strncat(uartTxRx.rxBuf, uartEvt->data.rx.buf, uartEvt->data.rx.len);
+            isUartBuffFull = false;
+          }
+          else {
+            uartTxRx.rxBufLen = uartEvt->data.rx.len;
+            memset(uartTxRx.rxBuf, 0, UART_RX_BUF_SIZE);
+            memcpy(uartTxRx.rxBuf, (uartEvt->data.rx.buf + uartEvt->data.rx.offset), uartEvt->data.rx.len);
+          }
+          k_thread_resume(tid_UartThread);
+        }
+        
         break;
 
     case UART_RX_BUF_REQUEST:
