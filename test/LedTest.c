@@ -11,7 +11,7 @@ TEST_SETUP(LedTestGroup) {
   LedDriver_Create();
 }
 
-/* destructor for a test case (It runs after running the test case) */
+/* destructor for a test case for LedTestGroup (It runs after running the test case) */
 TEST_TEAR_DOWN(LedTestGroup) {
   LedDriver_Destroy();
 }

@@ -28,6 +28,13 @@ int Cmd_LedUnitTestsHandler(char *argv) {
   return UnityMain(argc, args, RunLedTestGroup);
 }
 
+/* run uart unit tests command handler */
+int Cmd_UartUnitTestsHandler(char *argv) {
+  int argc = 2;
+  const char * args[] = {"dummy_arg" , "-v"};
+  return UnityMain(argc, args, RunUartTestGroup);
+}
+
 
 /***********************************  unit tests command handler's ends  ***********************************/
 

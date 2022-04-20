@@ -6,6 +6,7 @@
 void RunAllTestGroups(void);
 
 void RunLedTestGroup(void);
+void RunUartTestGroup(void);
 
 /*  function prototypes ends */
 

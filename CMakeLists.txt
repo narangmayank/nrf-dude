@@ -27,4 +27,5 @@ target_sources(app PRIVATE src/Utils/DriveDriver.c)
 
 # test files
 target_sources(app PRIVATE test/LedTest.c)
+target_sources(app PRIVATE test/UartTest.c)
 target_sources(app PRIVATE test/TestRunner/TestRunner.c)
