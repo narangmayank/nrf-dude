@@ -21,7 +21,8 @@ uint8_t cliExitMsg[] = "acha chalta hu duaoo me yad rkhna!\n\n$";
 
 /* cli commands */
 static const CliCommands_t cliCmdList[] = {
-  {"unit tests run kar bhai", Cmd_UnitTestsHandler , "run unit tests"},
+  {"unit tests run kar bhai"    , Cmd_UnitTestsHandler    , "run unit tests"},
+  {"led unit tests run kar bhai", Cmd_LedUnitTestsHandler , "run led unit tests"},
 
   {"led instance create kar bhai" , Cmd_LedCreateHandler , "create the instance of led driver"},
   {"led instance destroy kar bhai", Cmd_LedDestroyHandler, "destroy the instance of led driver"},

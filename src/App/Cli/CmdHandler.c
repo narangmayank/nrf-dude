@@ -1,10 +1,12 @@
 #include "Cli/Cli.h"
-#include "Cli/CmdHandler.h" 
+#include "TestRunner.h"  
+#include "Cli/CmdHandler.h"
 #include "LedDriver/LedDriver.h"
 #include "UartDriver/UartDriver.h"
 #include <string.h>
 #include <stdlib.h>
 #include <sys/printk.h>
+#include <unity_fixture.h>
 
 uint8_t Cmd_uartDevRxBuf[20] = "";
 const struct device * Cmd_uartDev = NULL;
@@ -14,12 +16,21 @@ const struct device * Cmd_uartDev = NULL;
 
 /* run unit tests command handler */
 int Cmd_UnitTestsHandler(char * argv) {
-  extern int unity_main(void);
-  return unity_main();
+  int argc = 2;
+  const char * args[] = {"dummy_arg" , "-v"};
+  return UnityMain(argc, args, RunAllTestGroups);
+}
+
+/* run led unit tests command handler */
+int Cmd_LedUnitTestsHandler(char *argv) {
+  int argc = 2;
+  const char * args[] = {"dummy_arg" , "-v"};
+  return UnityMain(argc, args, RunLedTestGroup);
 }
 
 
 /***********************************  unit tests command handler's ends  ***********************************/
+
 
 /*********************************** led module command handler's starts ***********************************/
 

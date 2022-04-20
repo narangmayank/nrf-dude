@@ -6,6 +6,7 @@
 
 // unit tests command handler's
 int Cmd_UnitTestsHandler(char *argv);
+int Cmd_LedUnitTestsHandler(char *argv);
 
 // led module command handler's
 int Cmd_LedCreateHandler(char * argv);
