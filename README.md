@@ -81,9 +81,13 @@ Nordic Semiconductor have chosen Zephyr RTOS for firmware development on the nRF
     * [nRF Command Line Tools](https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Command-Line-Tools) v10.5.0 (or newer)
     * pip install pyserial colored (if not have)
 
+## Connections
+
+Connect the USB-TTL to UART Port 2 of the nRF9160 and other side to PC USB. You can always change the UART Port and the same should be changed in code side too.
+
 ## Steps to build this demo
 
-Using pre-coimpiled binary
+Using pre-compiled binary
 ```bash
 git clone https://github.com/Mayank-124/RunTimeCli.git
 cd RunTimeCli
@@ -146,4 +150,8 @@ eg. python AutomatedCli.py COM6 115200 LogSession
 ```
 
 ### Contribute
-Wanna Contribute? Give the [contribution guide](https://github.com/Mayank-124/RunTimeCli/blob/main/CONTRIBUTING.md) a read.
+
+Contributions are welcome!  Not only you’ll encourage the development of the embedded cli, but you’ll also learn how to best use the embedded cli and probably some C too
+
+Please read the [contributing guide](https://github.com/Mayank-124/RunTimeCli/blob/main/CONTRIBUTING.md)
+before contributing to help this project stay welcoming.
