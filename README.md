@@ -87,10 +87,10 @@ You can also build, flash and run the nrf-dude via Segger Embedded Studio as usu
 $ cd script
 
 # Run the nrf cli script
-$ python nrf-cli.py COM_PORT BAUDRATE
+$ python nrf_cli.py COM_PORT BAUDRATE log_session=true
 ```
 
-Logging can be enabled by giving the extra argumnet log_Session. Automated CLI logs will be stored inside the nrf-cli-logs.txt file
+Logging can be enabled or disabled using the log_session boolean argument. Running CLI logs will be stored inside the nrf-cli-logs.txt file
 
 ## Available Commands
 
@@ -160,10 +160,10 @@ Before starting, You can setup the commands to be automated inside nrf-automated
 $ cd script
 
 # Run the nrf automated cli script
-$ python nrf-automated-cli.py COM_PORT BAUDRATE
+$ python nrf_automated_cli.py COM_PORT BAUDRATE log_session=true
 ```
 
-Logging can be enabled by giving the extra argumnet log_Session. Automated CLI logs will be stored inside the nrf-automated-cli-logs.txt file
+Logging can be enabled or disabled using the log_session boolean argument. Automated CLI logs will be stored inside the nrf-automated-cli-logs.txt file
 
 ### Contribute
 

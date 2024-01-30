@@ -7,7 +7,7 @@ uartComPort  = sys.argv[1]
 uartBaudrate = sys.argv[2]
 
 if(len(sys.argv) >= 4) :
-    if(sys.argv[3] == "LogSession") :
+    if(sys.argv[3] == "log_session=true") :
         isLogEnabled = True
     else :
         isLogEnabled = False
