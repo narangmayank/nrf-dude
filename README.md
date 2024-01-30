@@ -14,11 +14,11 @@ See the example below,
 
 ```bash
 # Run unit tests
-nrf-dude> run unit tests
+$ nrf-dude> run unit tests
 Executed! (err_code : api_error_code_comes_here)
 
 # Unknown command
-nrf-dude> can you execute this
+$ nrf-dude> can you execute this
 Error! (Unknown Command)
 ```
 
@@ -29,12 +29,12 @@ Error! (Unknown Command)
     * [USB to TTL UART Serial Convertor Module](https://www.electronicscomp.com/cp2102-usb-to-ttl-serial-converter-module?gclid=Cj0KCQjwmPSSBhCNARIsAH3cYgZYxKicZp3K4ffDAOhflVfdwYnVYaJ4WPLYOvm-uyRn7_Nrcr6eSiAaAn-jEALw_wcB)
 
 * **Software**
-    * [Segger Embedded Studio](https://www.segger.com/downloads/embedded-studio/) v5.0(or newer)
-    * [nRF Connect for desktop](https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Connect-for-desktop) v3.3.0 (or newer)
+    * [Segger Embedded Studio](https://www.segger.com/downloads/embedded-studio/)
+    * [nRF Connect for desktop](https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Connect-for-desktop)
         * Install and open the Getting started assistant
         * Follow all the steps in «Install the toolchain»
-    * [nRF Command Line Tools](https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Command-Line-Tools) v10.5.0 (or newer)
-    * pip install pyserial colored (if not have)
+    * [nRF Command Line Tools](https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Command-Line-Tools)
+    * Python
 
 ## Connections
 
@@ -52,15 +52,23 @@ $ git clone https://github.com/narangmayank/nrf-dude
 
 # Step into the project directory
 $ cd nrf-dude
+
+# Install the python requirements
+$ pip install -r requirements.txt
 ```
 
 ## Getting Started
 
+Here I'm building the app for nRF9160 SoC. In case you are using other SoC please tune the build accordingly :)
+
 ### Option 1 : Using pre-compiled binary
 
 ```bash
+# Step inside script folder
+$ cd script
+
 # Run the flasher script
-$  batch\flash_hex.bat
+$ flash_hex.bat
 ```
 
 ### Option 2 : Generating binary (Using West)
@@ -151,7 +159,7 @@ $ bye dude
 
 ```
 
-## Bonus : Automated CLI
+## Cherry on Cake : Automated CLI
 
 Before starting, You can setup the commands to be automated inside nrf-automated-cli-commands.txt file in line order
 
