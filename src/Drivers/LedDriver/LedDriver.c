@@ -1,7 +1,7 @@
 #include "Utils.h"
 #include "LedDriver/LedDriver.h" 
 #include <nrf9160.h>
-#include <drivers/gpio.h>
+#include <zephyr/drivers/gpio.h>
 
 /* if board is equiped with led's then only do the operations */
 #if LEDS_NUMBER > 0

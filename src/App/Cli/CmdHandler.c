@@ -5,7 +5,8 @@
 #include "UartDriver/UartDriver.h"
 #include <string.h>
 #include <stdlib.h>
-#include <sys/printk.h>
+#include <zephyr/kernel.h>
+#include <zephyr/sys/printk.h>
 #include <unity_fixture.h>
 
 uint8_t Cmd_uartDevRxBuf[20] = "";

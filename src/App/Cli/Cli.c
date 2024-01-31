@@ -4,7 +4,8 @@
 #include "UartDriver/UartDriver.h"
 #include <stdio.h>
 #include <string.h>
-#include <sys/printk.h>
+#include <zephyr/kernel.h>
+#include <zephyr/sys/printk.h>
 
 // Cli buffer's
 char cliCmdBuf[CLI_CMD_BUF_SIZE] = "";

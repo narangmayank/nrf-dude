@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <unity.h>
 #include <string.h>
+#include <zephyr/kernel.h>
 #include <unity_fixture.h>
 
 uint8_t Test_uartDevRxBuf[20] = "";

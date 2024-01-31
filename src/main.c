@@ -7,11 +7,11 @@
 #include "DriveDriver.h"
 //#include "LedDriver/LedDriver.h"
 #include "UartDriver/UartDriver.h"
-#include <zephyr.h>
-#include <device.h>
-#include <kernel.h>
-#include <devicetree.h>
-#include <sys/printk.h>
+#include <zephyr/zephyr.h>
+#include <zephyr/device.h>
+#include <zephyr/kernel.h>
+#include <zephyr/devicetree.h>
+#include <zephyr/sys/printk.h>
 
 #define RUN_UNIT_TEST 0
 #define RUN_FUNCTIONALITY_TEST 0

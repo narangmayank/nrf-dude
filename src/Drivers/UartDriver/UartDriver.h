@@ -2,7 +2,7 @@
 #define D_UartDriver_H
 
 #include <stdint.h>
-#include <device.h>
+#include <zephyr/device.h>
 
 #define UART_NUMBER                   1         // number of active uart ports
 #define UART_RX_BUF_SIZE              256       // uart reception buffer size
