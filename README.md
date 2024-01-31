@@ -34,7 +34,10 @@ Error! (Unknown Command)
         * Install and open the Getting started assistant
         * Follow all the steps in «Install the toolchain»
     * [nRF Command Line Tools](https://www.nordicsemi.com/Software-and-tools/Development-Tools/nRF-Command-Line-Tools)
-    * Python
+    * [Python](https://www.python.org/downloads/)
+    * [Ruby](https://rubyinstaller.org/downloads/)
+
+**Note**: In order to avoid the versions dependency hell we recommend to install the latest verions of all of the above software packages
 
 ## Connections
 
@@ -57,7 +60,7 @@ $ cd nrf-dude
 $ pip install -r requirements.txt
 ```
 
-## Getting Started
+## Let's Get Started
 
 Here I'm building the app for nRF9160 SoC. In case you are using other SoC please tune the build accordingly :)
 
@@ -88,7 +91,7 @@ $ west flash -d build_nrf9160dk_nrf9160_ns --erase
 
 You can also build, flash and run the nrf-dude via Segger Embedded Studio as usual :)
 
-## Running CLI 
+## nRF Running CLI 
 
 ```bash
 # Step inside script folder
@@ -109,26 +112,29 @@ $ hey dude
 # Show help message
 $ help me
 
-# Run the unit tests suite
+# Run the entire unit tests suite
 $ run unit tests
+
+# Run module unit tests
+$ run unit tests : module_name
 
 # Create the LED driver instance
 $ led init
 
 # Turn ON the LED
-$ led on : index
+$ led on : led_index
 
 # Turn ON all the LED's
 $ led on : all
 
 # Turn OFF the LED
-$ led off : index
+$ led off : led_index
 
 # Turn OFF all the LED's
 $ led off : all
 
 # Toggle the LED
-$ led toggle : index
+$ led toggle : led_index
 
 # Toggle all the LED's
 $ led toggle : all
@@ -159,7 +165,7 @@ $ bye dude
 
 ```
 
-## Cherry on Cake : Automated CLI
+## Cherry on Cake : nRF Automated CLI
 
 Before starting, You can setup the commands to be automated inside nrf-automated-cli-commands.txt file in line order
 
@@ -173,9 +179,12 @@ $ python nrf_automated_cli.py COM_PORT BAUDRATE log_session=true
 
 Logging can be enabled or disabled using the log_session boolean argument. Automated CLI logs will be stored inside the nrf-automated-cli-logs.txt file
 
-### Contribute
+### Contributing
 
 Contributions are welcome!  Not only you’ll encourage the development of the nrf dude, but you’ll also learn how to best use the embedded cli and probably some C too
 
-Please read the [contributing guide](https://github.com/Mayank-124/RunTimeCli/blob/main/CONTRIBUTING.md)
-before contributing to help this project stay welcoming.
+See [the contributing guide](CONTRIBUTING.md) for detailed instructions on how to get started with the SDK. Please follow the [code of conduct](CODE_OF_CONDUCT.md) while contributing.
+
+## License
+
+This SDK is licensed under the Apache License, Version 2.0 (see [LICENSE](LICENSE) for details).
