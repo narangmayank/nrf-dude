@@ -80,8 +80,8 @@ Here I'm building the app for nRF9160 SoC. In case you are using other SoC pleas
 # Step inside script folder
 $ cd script
 
-# Run the flasher script
-$ flash_hex.bat
+# Run the flasher script (i.e based on nrfjprog utility)
+$ flash_hex.bat nrf91
 ```
 
 ### Option 2 : Generating binary (Using West)
