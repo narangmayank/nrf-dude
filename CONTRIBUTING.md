@@ -7,7 +7,7 @@
   - Give a **Pull** request.
 
  
-- Create a pull request that adds something usefull to the nrf-bhai.
+- Create a pull request that adds something usefull to the nrf-dude.
 - You can contribute by either adding some usefull commands in code side or giving some unique feature in script side.
 
 - Otherwise you can also contribute a whole new script or batch file that can be helpfull to us.

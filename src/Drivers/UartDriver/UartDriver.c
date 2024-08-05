@@ -2,9 +2,9 @@
 #include "UartDriver/UartDriver.h"
 #include <stdio.h>
 #include <string.h>
-#include <zephyr/kernel.h>
-#include <zephyr/sys/printk.h>
-#include <zephyr/drivers/uart.h>
+#include <kernel.h>
+#include <sys/printk.h>
+#include <drivers/uart.h>
 
 /* bool to check buffer overflow */
 bool isUartBuffFull = false;

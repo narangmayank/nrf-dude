@@ -2,7 +2,7 @@
 #include "DriveDriver.h" 
 #include "LedDriver/LedDriver.h" 
 #include "UartDriver/UartDriver.h"
-#include <zephyr/kernel.h>
+#include <kernel.h>
 
 /*
  * @brief Function for verifying the led driver and inturn showing the usage to the user.

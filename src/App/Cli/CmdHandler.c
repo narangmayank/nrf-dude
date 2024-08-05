@@ -5,8 +5,8 @@
 #include "UartDriver/UartDriver.h"
 #include <string.h>
 #include <stdlib.h>
-#include <zephyr/kernel.h>
-#include <zephyr/sys/printk.h>
+#include <kernel.h>
+#include <sys/printk.h>
 #include <unity_fixture.h>
 
 uint8_t Cmd_uartDevRxBuf[20] = "";
@@ -56,7 +56,7 @@ int Cmd_LedDestroyHandler(char * argv) {
 /* led On command handler */
 int Cmd_LedOnHandler(char * argv) {
   if(strcmp(argv, "") == 0) {
-    printk("bhai kya kar rha hai tu, konsi led on karu ye to bta?\n");
+    printk("No Arguments?\n");
     return 22;
   }
 
@@ -72,7 +72,7 @@ int Cmd_LedOnHandler(char * argv) {
 /* led Off command handler */
 int Cmd_LedOffHandler(char * argv) {
   if(strcmp(argv, "") == 0) {
-    printk("bhai kya kar rha hai tu, konsi led off karu ye to bta?\n");
+    printk("No Arguments?\n");
     return 22;
   }
   
@@ -88,7 +88,7 @@ int Cmd_LedOffHandler(char * argv) {
 /* led Toggle command handler */
 int Cmd_LedToggleHandler(char * argv) {
   if(strcmp(argv, "") == 0) {
-    printk("bhai kya kar rha hai tu, konsi led toggle karu ye to bta?\n");
+    printk("No Arguments?\n");
     return 22;
   }
   
@@ -104,7 +104,7 @@ int Cmd_LedToggleHandler(char * argv) {
 /* led IsOn command handler */
 int Cmd_LedIsOnHandler(char * argv) {
   if(strcmp(argv, "") == 0) {
-    printk("bhai kya kar rha hai tu, konsi led on hai ya nhi ye to bta?\n");
+    printk("No Arguments?\n");
     return 22;
   }
   
@@ -120,7 +120,7 @@ int Cmd_LedIsOnHandler(char * argv) {
 /* led IsOff command handler */
 int Cmd_LedIsOffHandler(char * argv) {
   if(strcmp(argv, "") == 0) {
-    printk("bhai kya kar rha hai tu, konsi led off hai ya nhi ye to bta?\n");
+    printk("No Arguments?\n");
     return 22;
   }
   

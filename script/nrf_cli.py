@@ -15,7 +15,7 @@ if(len(sys.argv) >= 4) :
         isLogEnabled = False
 
 if(isLogEnabled) :
-    f_log_ptr = open("cliLogs.txt","w")
+    f_log_ptr = open("nrf-cli-logs.txt","w")
 
 ser = serial.Serial(uartComPort, uartBaudrate)
 
@@ -35,9 +35,9 @@ def getResponse() :
             actualRes = response[0:magicIdx]
             cliPrompt = response[magicIdx:]
 
-            if(actualRes[0:8] == "Shandaar") :
+            if(actualRes[0:9] == "Executed!") :
                 print(fg('green') + actualRes + fg('white'), end="")
-            elif(actualRes[0:4] == "Arre") :
+            elif(actualRes[0:6] == "Error!") :
                 print(fg('red') + actualRes + fg('white'), end="")
             else :
                 print(actualRes, end="")
@@ -54,16 +54,14 @@ def doSomething() :
     global isCmdMode
     global isLogEnabled
 
-    cliStartFrame = "hi bhai"
-    cliStopFrame = "bye bhai"
+    cliStartFrame = "hye dude"
+    cliStopFrame = "bye dude"
     
     while 1:
         data = input("")
         ser.write(bytes(data, 'utf-8'))
 
         if(data == cliStartFrame) :
-            if(isLogEnabled) :
-                f_log_ptr = open("cliLogs.txt","w")
             isCmdMode = True
 
         if(isCmdMode) :

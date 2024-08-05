@@ -13,9 +13,9 @@ if(len(sys.argv) >= 4) :
         isLogEnabled = False
 
 if(isLogEnabled) :
-    f_log_ptr = open("cliLogs.txt","w")
+    f_log_ptr = open("nrf-automated-cli-logs.txt","w")
 
-f_cmd_ptr = open("cliCommands.txt","r")
+f_cmd_ptr = open("nrf-automated-cli-commands.txt","r")
 ser = serial.Serial(uartComPort, uartBaudrate)
 
 def putCommand():
@@ -53,9 +53,9 @@ def getResponse():
             actualRes = response[0:magicIdx]
             cliPrompt = response[magicIdx:]
 
-            if(actualRes[0:8] == "Shandaar") :
+            if(actualRes[0:9] == "Executed!") :
                 print(fg('green') + actualRes + fg('white'), end="")
-            elif(actualRes[0:4] == "Arre") :
+            elif(actualRes[0:6] == "Error!") :
                 print(fg('red') + actualRes + fg('white'), end="")
             else :
                 print(actualRes, end="")

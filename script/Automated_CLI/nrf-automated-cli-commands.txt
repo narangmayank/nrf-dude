@@ -1,0 +1,11 @@
+hye dude
+run unit tests
+led peripheral init
+led on : all
+led off : all
+led toggle : all
+led peripheral deinit
+uart peripheral init
+uart tx : yet another firmware guy
+uart peripheral deinit
+bye dude

@@ -4,8 +4,8 @@
 #include "UartDriver/UartDriver.h"
 #include <stdio.h>
 #include <string.h>
-#include <zephyr/kernel.h>
-#include <zephyr/sys/printk.h>
+#include <kernel.h>
+#include <sys/printk.h>
 
 // Cli buffer's
 char cliCmdBuf[CLI_CMD_BUF_SIZE] = "";
@@ -14,37 +14,37 @@ char cliResBuf[CLI_RES_BUF_SIZE] = "";
 
 // Cli variables
 bool isCliMode = false;
-uint8_t cliStartFrame[] = "hi bhai";
-uint8_t cliStopFrame[] = "bye bhai";
+uint8_t cliStartFrame[] = "hye dude";
+uint8_t cliStopFrame[] = "bye dude";
 
 // Cli messages
-uint8_t cliPrompt[] = "\nnrf-bhai>$";
-uint8_t cliSuccessMsg[] = "Shandaar Bhai (err_code : ";
-uint8_t cliFailureMsg[] = "Arre Bhai Bhai Bhai !!! (Unknown Command)\n";
-uint8_t cliExitMsg[] = "acha chalta hu duaoo me yad rkhna!\n\n$";
+uint8_t cliPrompt[] = "\nnrf-dude>$";
+uint8_t cliSuccessMsg[] = "Executed! (err_code : %d)\n";
+uint8_t cliFailureMsg[] = "Error! (Unknown Command)\n";
+uint8_t cliExitMsg[] = "Thanks, Bye dude!\n\n$";
 
 /* Cli command's */
 static const CliCommands_t cliCmdList[] = {
-  {"help kar bhai", NULL, "", ""},
+  {"help me", NULL, "", ""},
 
-  {"unit tests run kar bhai"     , Cmd_UnitTestsHandler    , "\nunit tests run kar bhai"   , " run unit tests"},
-  {"led unit tests run kar bhai" , Cmd_LedUnitTestsHandler , "led unit tests run kar bhai" , "run led unit tests"},
-  {"uart unit tests run kar bhai", Cmd_UartUnitTestsHandler, "uart unit tests run kar bhai", "run uart unit tests\n"},
+  {"run unit tests"     , Cmd_UnitTestsHandler    , "\nrun unit tests"   , " run entire unit tests suite"},
+  {"run led unit tests" , Cmd_LedUnitTestsHandler , "run led unit tests" , "run only led unit tests suite"},
+  {"run uart unit tests", Cmd_UartUnitTestsHandler, "run uart unit tests", "run only uart unit tests suite\n"},
 
-  {"led instance create kar bhai" , Cmd_LedCreateHandler , "led instance create kar bhai"  , "create the instance of led driver"},
-  {"led instance destroy kar bhai", Cmd_LedDestroyHandler, "led instance destroy kar bhai" , "destroy the instance of led driver"},
-  {"led on kar bhai "             , Cmd_LedOnHandler     , "led on kar bhai : led_idx"     , "turn on respective led"},
-  {"led off kar bhai "            , Cmd_LedOffHandler    , "led off kar bhai : led_idx"    , "turn off respective led"},
-  {"led toggle kar bhai "         , Cmd_LedToggleHandler , "led toggle kar bhai : led_idx" , "toggle respective led"},
-  {"led on hai kya bhai "         , Cmd_LedIsOnHandler   , "led on hai kya bhai : led_idx" , "is respective led on"},
-  {"led off hai kya bhai "        , Cmd_LedIsOffHandler  , "led off hai kya bhai : led_idx", "is respective led off\n"},
+  {"led peripheral init" , Cmd_LedCreateHandler , "led peripheral init"  , "create an instance of led driver"},
+  {"led peripheral deinit", Cmd_LedDestroyHandler, "led peripheral deinit" , "destroy the instance of led driver"},
+  {"led on "             , Cmd_LedOnHandler     , "led on : led_index"     , "turn on user specified led"},
+  {"led off "            , Cmd_LedOffHandler    , "led off : led_index"    , "turn off user specified led"},
+  {"led toggle "         , Cmd_LedToggleHandler , "led toggle : led_index" , "toggle user specified led"},
+  // {"is led on "         , Cmd_LedIsOnHandler   , "is led on : led_index" , "is user specified led on"},
+  // {"is led off "        , Cmd_LedIsOffHandler  , "is led off : led_index", "is user specified led off\n"},
 
-  {"uart instance create kar bhai" , Cmd_UartCreateHandler   , "uart instance create kar bhai" , "create the instance of uart driver"},
-  {"uart instance destroy kar bhai", Cmd_UartDestroyHandler  , "uart instance destroy kar bhai", "destroy the instance of uart driver"},
-  {"uart tx kar bhai "             , Cmd_UartTxHandler       , "uart tx kar bhai : tx_data"    , "transmit data from uart"},
-  {"uart tx abort kar bhai"        , Cmd_UartTxAbortHandler  , "uart tx abort kar bhai"        , "abort current uart transmission"},
-  {"uart rx enable kar bhai"       , Cmd_UartRxEnableHandler , "uart rx enable kar bhai"       , "enable uart reception"},
-  {"uart rx disable kar bhai"      , Cmd_UartRxDisableHandler, "uart rx disable kar bhai"      , "disable uart reception"}
+  {"uart peripheral init"  , Cmd_UartCreateHandler   , "uart peripheral init"  , "create an instance of uart driver"},
+  {"uart peripheral deinit", Cmd_UartDestroyHandler  , "uart peripheral deinit", "destroy the instance of uart driver"},
+  {"uart tx "              , Cmd_UartTxHandler       , "uart tx : data_to_send", "transmit user specified data from uart"},
+  {"uart tx abort"         , Cmd_UartTxAbortHandler  , "uart tx abort"         , "abort current uart transmission"},
+  {"uart rx enable"        , Cmd_UartRxEnableHandler , "uart rx enable"        , "enable uart reception"},
+  {"uart rx disable"       , Cmd_UartRxDisableHandler, "uart rx disable"       , "disable uart reception"}
 };
 
 static const int cliCmdListLen = sizeof(cliCmdList)/sizeof(cliCmdList[0]);
@@ -137,28 +137,28 @@ static void doSomething() {
       retVal = (cliCmdList[i].handler)(cliArgBuf);
 
       /* give logs in debug terminal */
-      printk("Shandaar bhai\n");
-      printk("retVal : %d\n", retVal);
+      printk("Executed! (err_code : %d)\n", retVal);
 
-      /* generate response for this cmd */
-      memcpy(cliResBuf, cliSuccessMsg, strlen(cliSuccessMsg));
-      sprintf(buff, "%d", retVal);
-      strcat(cliResBuf, buff);
-      strcat(cliResBuf, ")\n");
-      
+      /* generate response for this cmd */    
+      int tempVal = snprintf(cliResBuf, CLI_RES_BUF_SIZE, cliSuccessMsg, retVal);
+
+      if(tempVal >= CLI_RES_BUF_SIZE) {
+        printk("Cli Response Buffer Truncated.\n");
+      }
+
       /* set this bool to get info about cmd found */
       isCmdFound = true;
+
       break;
     }
   }
-
+  
   /* If command is not found then let user know about it */
   if(!isCmdFound) {
     /* oh no, seems like user has done mistake while typing ! */
 
     /* give logs in debug terminal */
-    printk("Arre Bhai Bhai Bhai !!!\n");
-    printk("> kya kar rha hai tu??... Unknown Command\n");
+    printk("Error! (Unknown Command)\n");
 
     /* generate response for cmd not found */
     memcpy(cliResBuf, cliFailureMsg, strlen(cliFailureMsg));

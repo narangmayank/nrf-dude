@@ -1,7 +1,7 @@
 hye dude
 
-nrf-dude>abcd
-Error! (Unknown Command)
+nrf-dude>run unit tests
+Executed! (err_code : 0)
 
 nrf-dude>led peripheral init
 Executed! (err_code : 0)
@@ -15,22 +15,16 @@ Executed! (err_code : 0)
 nrf-dude>led toggle : all
 Executed! (err_code : 0)
 
-nrf-dude>led perhipheral deinit
-Error! (Unknown Command)
+nrf-dude>led peripheral deinit
+Executed! (err_code : 0)
 
 nrf-dude>uart peripheral init
 Executed! (err_code : 0)
 
-nrf-dude>uart tx : you are awesome dude
+nrf-dude>uart tx : yet another firmware guy
 Executed! (err_code : 0)
 
 nrf-dude>uart peripheral deinit
-Executed! (err_code : 0)
-
-nrf-dude>can you execute this
-Error! (Unknown Command)
-
-nrf-dude>run unit tests
 Executed! (err_code : 0)
 
 nrf-dude>bye dude

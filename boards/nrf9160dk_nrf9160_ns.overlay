@@ -2,6 +2,4 @@
 	status = "okay";
 	label = "UART_2";
 	current-speed = < 0x1c200 >;
-	tx-pin = < 0x18 >;
-      rx-pin = < 0x17 >;
 }; 

@@ -5,13 +5,13 @@
  */
 
 #include "DriveDriver.h"
-//#include "LedDriver/LedDriver.h"
+#include "LedDriver/LedDriver.h"
 #include "UartDriver/UartDriver.h"
-#include <zephyr/zephyr.h>
-#include <zephyr/device.h>
-#include <zephyr/kernel.h>
-#include <zephyr/devicetree.h>
-#include <zephyr/sys/printk.h>
+#include <zephyr.h>
+#include <device.h>
+#include <kernel.h>
+#include <devicetree.h>
+#include <sys/printk.h>
 
 #define RUN_UNIT_TEST 0
 #define RUN_FUNCTIONALITY_TEST 0
@@ -30,5 +30,6 @@ void main(void) {
     printk("unity_main() err_code : %d",unity_main());
   #endif
 
-  UartDriver_Create(&uartDev_2, UART_PORT_2, UART_BAUDRATE_115200);
+  int err_code = UartDriver_Create(&uartDev_2, UART_PORT_2, UART_BAUDRATE_115200);
+  printk("UartDriver_Create() err_code : %d", err_code);
 }
