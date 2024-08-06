@@ -8,7 +8,7 @@ CLI for Nordic SOC's
 - Then send some commands to execute eg. `run unit tests`
 - Release the dude use `bye dude`
 
-Once you invoked the dude a dude session will start, then after you can start sending the commands to execute and each command you sent would be follewed by a real time response. Once you are done just release the dude to free up the occupied resources
+Invoking the dude will start a session, then after you can start sending the commands to execute and each command you sent would be follewed by a real time hardware response. Once you are done just release the dude to free up the occupied resources
 
 See the example below,
 
@@ -42,11 +42,11 @@ Error! (Unknown Command)
     * [Python](https://www.python.org/downloads/)
     * [Ruby](https://rubyinstaller.org/downloads/)
 
-**Note**: This project is initially based on nRF Connect SDK v1.7.0. However beyond versions might be supported with minimal efforts.
+**Note**: This project is initially based on nRF Connect SDK v1.7.0. However beyond versions might be supported with minimal efforts. You can install the latest version of all the other software packages.s
 
 ## Connections
 
-Connect the USB-TTL to any available UART port of the controller and other side to PC USB. By default UART2 is used by the ***nrf-dude**. You can always change the UART port later on anytime and the same should be configured to use it too
+Connect the USB-TTL to any available UART port of the controller and other side to PC USB. By default UART2 is used by the **nrf-dude**. You can always change the UART port later on anytime and the same should be configured to use it too
 
 For nRF9160 DK plese use the following pins for UART,
 - Tx - P0.24
@@ -88,7 +88,7 @@ $ flash_hex.bat nrf91
 
 ```bash
 # Setup the nrf toolchain
-$ path_to_sdk\toolchain\cmd\env.cmd
+$ path_to_sdk/toolchain/cmd/env.cmd
 
 # Build the binary
 $ west build -b nrf9160dk_nrf9160 -d build_nrf9160dk_nrf9160_ns
@@ -111,7 +111,7 @@ $ cd script
 $ python nrf_cli.py COM_PORT BAUDRATE log_session=true
 ```
 
-Logging can be enabled or disabled using the log_session boolean argument. Running CLI logs will be stored inside the [nrf-cli-logs.txt](script/nrf-cli-logs.txt) file
+Logging can be enabled or disabled using the log_session boolean argument. nRF CLI logs will be stored inside the [nrf-cli-logs.txt](script/nrf-cli-logs.txt) file
 
 ## Available Commands
 
@@ -180,7 +180,7 @@ $ bye dude
 
 ## Cherry on Cake : nRF Automated CLI
 
-Before starting, You can setup the commands to be automated inside nrf-automated-cli-commands.txt file in line order
+Before starting, You need to setup the commands to be automated inside nrf-automated-cli-commands.txt file in line order. To just get started I've tried to put down few basic commands. You can always update the file and test in your way.
 
 ```bash
 # Step inside script folder
@@ -190,7 +190,7 @@ $ cd script/Automated_CLI
 $ python nrf_automated_cli.py COM_PORT BAUDRATE log_session=true
 ```
 
-Logging can be enabled or disabled using the log_session boolean argument. Automated CLI logs will be stored inside the [nrf-automated-cli-logs.txt](script/Automated_CLI/nrf-automated-cli-logs.txt) file
+Logging can be enabled or disabled using the log_session boolean argument. nRF Automated CLI logs will be stored inside the [nrf-automated-cli-logs.txt](script/Automated_CLI/nrf-automated-cli-logs.txt) file
 
 ### Contributing
 
